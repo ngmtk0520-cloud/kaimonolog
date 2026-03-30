@@ -1,24 +1,20 @@
-# README
+markdown
+# Kaimonolog (カイモノログ)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+家族の「モノ」と「ログ」をつなぐ、AI予測型・効率特化の買い物共有アプリ。
 
-Things you may want to cover:
+## 解決する課題
+- 買い物リストと家計簿が別々で入力が面倒。
+- 消耗品の買い忘れや、二重買いが発生する。
 
-* Ruby version
+## 主な機能 (予定)
+- **共有リスト**: Rails 7 (Hotwire) によるリロードなしの爆速共有。
+- **AIストック予測**: 定期購入品の購入間隔を学習し、ストック切れを予測。
+- **ゼロ秒家計簿**: チェックを入れるだけで家計簿へ自動仮登録。
+- **カレンダー連携**: 支出の可視化と次回購入日の予測表示。
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## DB設計 (ER図案)
+- Users: ニックネーム, group_id
+- Groups: 名前, 招待トークン
+- Items: 名前, チェック状態, 定期購入フラグ, カテゴリ
+- PurchaseHistories: 購入日, 価格, item_id
