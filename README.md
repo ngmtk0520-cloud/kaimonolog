@@ -27,7 +27,7 @@ markdown
 | invite_token           | text    | null: false, unique: true |
 
 #### Association
-- has_many :user
+- has_many :users
 - has_many :item
 - has_many :category
 
@@ -56,7 +56,7 @@ markdown
 | Column        | Type       | Options                        |
 | ------------- | ---------- | ------------------------------ |
 | purchased_at  | datetime   | null: false                    |
-| pride         | integer    |                                |
+| price         | integer    |                                |
 | item          | references | null: false, foreign_key: true |
 | user          | references | null: false, foreign_key: true |
 
