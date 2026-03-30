@@ -42,6 +42,8 @@ markdown
 | is_subscription   | boolean    | null: false, default: false    |
 | category          | references | null: false, foreign_key: true |
 | group             | references | null: false, foreign_key: true |
+| last_bough_at     | datetime   |                                |
+| cycle_days        | integer    | null: false, default: 0        |
 
 #### Association
 - belongs_to :group
