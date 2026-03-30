@@ -1,20 +1,77 @@
 markdown
-# Kaimonolog (カイモノログ)
+### kaimonolog(カイモノログ)
+## データベース設計
 
-家族の「モノ」と「ログ」をつなぐ、AI予測型・効率特化の買い物共有アプリ。
+### users テーブル
+### ログインユーザーを管理します。groupに所属することで共有を可能にします。
 
-## 解決する課題
-- 買い物リストと家計簿が別々で入力が面倒。
-- 消耗品の買い忘れや、二重買いが発生する。
+| Column             | Type       | Options                   |
+| ------------------ | ---------- | ------------------------- |
+| nickname           | string     | null: false               |
+| email              | string     | null: false, unique: true |
+| encrypted_password | string     | null: false               |
+| group              | references | foreign_key: true         |
 
-## 主な機能 (予定)
-- **共有リスト**: Rails 7 (Hotwire) によるリロードなしの爆速共有。
-- **AIストック予測**: 定期購入品の購入間隔を学習し、ストック切れを予測。
-- **ゼロ秒家計簿**: チェックを入れるだけで家計簿へ自動仮登録。
-- **カレンダー連携**: 支出の可視化と次回購入日の予測表示。
 
-## DB設計 (ER図案)
-- Users: ニックネーム, group_id
-- Groups: 名前, 招待トークン
-- Items: 名前, チェック状態, 定期購入フラグ, カテゴリ
-- PurchaseHistories: 購入日, 価格, item_id
+#### Association
+- belongs_to :group
+- has_many :purchase_histories
+
+
+### groups テーブル
+### 家族やペアの単位です。このIDを介してリストを共有します。
+
+| Column                 | Type    | Options                   |
+| ---------------------- | ------- | ------------------------- |
+| name                   | string  | null: false               |
+| invite_token           | text    | null: false, unique: true |
+
+#### Association
+- has_many :user
+- has_many :item
+- has_many :category
+
+
+### items テーブル
+### 買い物リスト本体です。定期購入フラグでAI学習対象を判別します。
+
+| Column            | Type       | Options                        |
+| ----------------- | ---------- | ------------------------------ |
+| name              | string     | null: false                    |
+| is_checked        | boolean    | null: false, default: false    |
+| is_subscription   | boolean    | null: false, default: false    |
+| category          | references | null: false, foreign_key: true |
+| group             | references | null: false, foreign_key: true |
+
+#### Association
+- belongs_to :group
+- belongs_to :category
+- has_many :purchase_histories
+
+
+
+### purchase_histories  テーブル
+いつ、いくらで買ったかの記録です。カレンダー表示とAI予測の元データになります。
+
+| Column        | Type       | Options                        |
+| ------------- | ---------- | ------------------------------ |
+| purchased_at  | datetime   | null: false                    |
+| pride         | integer    |                                |
+| item          | references | null: false, foreign_key: true |
+| user          | references | null: false, foreign_key: true |
+
+#### Association
+- belongs_to :item
+- belongs_to :user
+
+
+### categories テーブル
+グループごとにカスタマイズ可能なカテゴリーです。
+
+| Column                 | Type       | Options                        |
+| ---------------------- | ---------- | ------------------------------ |
+| name                   | string     | null: false                    |
+| group                  | references | null: false, foreign_key: true |
+
+- belongs_to :group
+- has_many :item
