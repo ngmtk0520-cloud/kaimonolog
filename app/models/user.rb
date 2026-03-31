@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
   belongs_to :group, optional: true
   has_many :purchase_histories
+
+  validates :nickname, presence: true
 end
