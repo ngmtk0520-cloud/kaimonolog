@@ -1,4 +1,16 @@
-<!-- 1つの商品をどう表示するかを定義 -->
-<div id="<%= dom_id item %>" style="padding: 10px; border-bottom: 1px solid #ddd;">
-  <span><%= item.name %></span>
-</div>
+<!-- 💥 dom_id(item) で囲むことで、この1行だけを狙い撃ちで書き換えられるようにします -->
+<%= turbo_frame_tag dom_id(item) do %>
+  <div style="padding: 10px; border-bottom: 1px solid #ddd; display: flex; align-items: center;">
+    
+    <!-- チェックのオンオフを更新するフォーム -->
+    <%= form_with model: item, url: item_path(item), method: :patch do |f| %>
+      <%= f.check_box :is_checked %>
+      <%= f.submit "済", style: "font-size: 10px; margin-left: 5px;" %>
+    <% end %>
+
+    <!-- チェックが入っていたら文字に横線（打ち消し線）を入れる演出 -->
+    <span style="margin-left: 10px; <%= 'text-decoration: line-through; color: gray;' if item.is_checked %>">
+      <%= item.name %>
+    </span>
+  </div>
+<% end %>

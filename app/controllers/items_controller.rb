@@ -21,6 +21,16 @@ class ItemsController < ApplicationController
     end
   end
 
+  def update
+    @item = @group.items.find(params[:id])
+    if @item.update(item_params)
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to items_path }
+      end
+    end
+  end
+
   private
 
   def set_group
@@ -30,6 +40,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :is_subscription)
+    params.require(:item).permit(:name, :is_subscription, :is_checked)
   end
 end
