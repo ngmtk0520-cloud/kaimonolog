@@ -1,0 +1,40 @@
+<h1>🛒 Kaimonolog (カイモノログ)</h1>
+
+<% if user_signed_in? %>
+  <p>こんにちは、<%= current_user.nickname %>さん！</p>
+  <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+
+  <hr>
+
+  <% if current_user.group_id.nil? %>
+    <h2>グループに参加していません</h2>
+    <p>買い物リストを共有するために、グループを作成するか、招待コードを入力してください。</p>
+
+    <!-- グループ新規作成フォーム -->
+    <div>
+      <h3>新しくグループを作る</h3>
+      <%= form_with url: "#" do |f| %>
+        <%= f.label :name, "グループ名" %>
+        <%= f.text_field :name %>
+        <%= f.submit "グループを作成" %>
+      <% end %>
+    </div>
+
+    <!-- 招待コード入力フォーム -->
+    <div>
+      <h3>招待コードでグループに参加する</h3>
+      <%= form_with url: "#" do |f| %>
+        <%= f.label :invite_token, "招待コード" %>
+        <%= f.text_field :invite_token %>
+        <%= f.submit "参加する" %>
+      <% end %>
+    </div>
+  <% else %>
+    <h2>所属グループ: <%= current_user.group.name %></h2>
+    <p>ここに買い物リストが表示される予定です（後日実装）</p>
+  <% end %>
+
+<% else %>
+  <%= link_to "ログイン", new_user_session_path %> |
+  <%= link_to "新規登録", new_user_registration_path %>
+<% end %>
