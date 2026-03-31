@@ -11,3 +11,6 @@ primary_region = "nrt"
 [[statics]]
   guest_path = "/public"
   url_prefix = "/"
+
+[deploy]
+  release_command = "bin/rails db:migrate"
