@@ -13,7 +13,7 @@
     <!-- グループ新規作成フォーム -->
     <div>
       <h3>新しくグループを作る</h3>
-      <%= form_with url: "#" do |f| %>
+      <%= form_with model: Group.new, url: groups_path do |f| %>
         <%= f.label :name, "グループ名" %>
         <%= f.text_field :name %>
         <%= f.submit "グループを作成" %>
