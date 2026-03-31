@@ -31,7 +31,7 @@
     </div>
   <% else %>
     <h2>所属グループ: <%= current_user.group.name %></h2>
-    <p>ここに買い物リストが表示される予定です（後日実装）</p>
+    <p><%= link_to "🛒 買い物リストを見る", items_path, class: "btn" %></p>
   <% end %>
 
 <% else %>
