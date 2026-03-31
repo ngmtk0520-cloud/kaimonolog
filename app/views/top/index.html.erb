@@ -23,7 +23,7 @@
     <!-- 招待コード入力フォーム -->
     <div>
       <h3>招待コードでグループに参加する</h3>
-      <%= form_with url: "#" do |f| %>
+      <%= form_with url: join_groups_path, method: :post do |f| %>
         <%= f.label :invite_token, "招待コード" %>
         <%= f.text_field :invite_token %>
         <%= f.submit "参加する" %>

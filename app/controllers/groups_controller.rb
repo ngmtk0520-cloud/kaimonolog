@@ -12,6 +12,17 @@ class GroupsController < ApplicationController
     end
   end
 
+  def join
+    group = Group.find_by(invite_token: params[:invite_token])
+
+    if group
+      current_user.update(group_id: group.id)
+      redirect_to root_path, notice: "「#{group.name}に参加しましました」"
+    else
+      redirect_to root_path, alert: "招待コードが正しくありません"
+    end
+  end
+
   private
 
   def group_params
