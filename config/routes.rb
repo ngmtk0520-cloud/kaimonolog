@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'groups/create'
   devise_for :users
   root "top#index"
 
@@ -8,4 +7,6 @@ Rails.application.routes.draw do
       post :join
     end
   end
+
+  resources :items, only: [:index, :create]
 end

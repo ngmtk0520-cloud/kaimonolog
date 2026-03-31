@@ -1,0 +1,15 @@
+<h1>🛒 買い物リスト</h1>
+
+<!-- 1. 新しい商品を追加するフォーム -->
+<%= form_with model: @item, url: items_path do |f| %>
+  <%= f.text_field :name, placeholder: "買うものを入力" %>
+  <%= f.submit "追加" %>
+<% end %>
+
+<hr>
+
+<!-- 2. 💥 ここがHotwireのポイント！ -->
+<!-- id="items" の中に、追加したアイテムがリロードなしで差し込まれます -->
+<div id="items">
+  <%= render @items %>
+</div>

@@ -1,0 +1,2 @@
+<!-- items の一覧の「先頭（prepend）」に、新しく作った _item.html.erb をリロードなしでガッチャンコします！ -->
+<%= turbo_stream.prepend "items", partial: "items/item", locals: { item: @item } %>
