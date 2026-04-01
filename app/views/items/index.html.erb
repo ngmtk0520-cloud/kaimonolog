@@ -1,17 +1,28 @@
 <h1>🛒 買い物リスト</h1>
+<!-- 都度購入 -->
+<details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+  <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">🛒 都度購入</summary>
+  <!-- 💥 作成した部品を呼び出す（kind: "regular" を渡す） -->
+  <%= render "items/form", item: Item.new, kind: "regular" %>
+  <div id="regular_items" style="margin-top: 10px;">
+    <%= render @regular_items %>
+  </div>
+</details>
+<!-- 定期購入　-->
+<details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+  <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">🗓 定期購入</summary>
+  <!-- 💥 部品を呼び出す（kind: "subscription" を渡す） -->
+  <%= render "items/form", item: Item.new, kind: "subscription" %>
+  <div id="subscription_items" style="margin-top: 10px;">
+    <%= render @subscription_items %>
+  </div>
+</details>
 
-<!-- 1. 新しい商品を追加するフォーム -->
-<%= form_with model: @item, url: items_path do |f| %>
-  <%= f.text_field :name, placeholder: "買うものを入力", required: true %>
-  <!-- 💥 カテゴリー選択を追加 -->
-  <%= f.collection_select :category_id, @group.categories, :id, :name, { include_blank: "カテゴリーなし" } %>
-  <%= f.submit "追加" %>
-<% end %>
-
-<hr>
-
-<!-- 2. 💥 ここがHotwireのポイント！ -->
-<!-- id="items" の中に、追加したアイテムがリロードなしで差し込まれます -->
-<div id="items">
-  <%= render @items %>
-</div>
+<!-- スポット購入 -->
+<details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+  <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">📍 スポット購入</summary>
+  <%= render "items/form", item: Item.new, kind: "spot" %>
+  <div id="spot_items" style="margin-top: 10px;">
+    <%= render @spot_items %>
+  </div>
+</details>

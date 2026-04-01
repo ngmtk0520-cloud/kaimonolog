@@ -1,17 +1,17 @@
-<!-- 💥 Railsが自動で "item_3" のようなIDを付けてくれる魔法の1行 -->
-<%= turbo_frame_tag dom_id(item) do %>
-  <div style="padding: 10px; border-bottom: 1px solid #ddd; display: flex; align-items: center; justify-content: space-between;">
-    <div style="display: flex; align-items: center;">
-      <%= form_with model: item, url: item_path(item), method: :patch do |f| %>
-        <%= f.check_box :is_checked %>
-        <%= f.submit "済", style: "font-size: 10px; margin-left: 5px;" %>
-      <% end %>
-      <span style="margin-left: 10px; <%= 'text-decoration: line-through; color: gray;' if item.is_checked %>">
-        <%= item.name %>
-      </span>
-    </div>
+<div id="item_<%= item.id %>" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd;">
+  <div style="display: flex; align-items: center;">
+    
+    <%# 💥 すでにリストにあるアイテムを「更新」するためのフォーム %>
+    <%= form_with model: item, url: item_path(item), method: :patch, data: { turbo_stream: true } do |f| %>
+      <%# 💥 チェックした瞬間に送信！ %>
+      <%= f.check_box :is_checked, onchange: "this.form.requestSubmit()" %>
+    <% end %>
 
-    <!-- 💥 削除ボタン：Rails 7の標準的なデータ属性を指定 -->
-    <%= button_to "削除", item_path(item), method: :delete, data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %>
+    <span style="margin-left: 10px; <%= 'text-decoration: line-through; color: gray;' if item.is_checked %>">
+      <%= item.name %>
+    </span>
   </div>
-<% end %>
+
+  <%# 削除ボタン %>
+  <%= button_to "🗑️", item_path(item), method: :delete, data: { turbo_method: :delete, turbo_confirm: "削除しますか？" }, style: "background: none; border: none; cursor: pointer;" %>
+</div>

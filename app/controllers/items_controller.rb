@@ -2,7 +2,12 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
   def index
-    @items = @group.items.order(created_at: :desc)
+    @items = @group.items.includes(:category).order(created_at: :desc)
+
+    @regular_items      = @items.regular      # 都度購入 (kind: 0)
+    @subscription_items = @items.subscription # 定期購入 (kind: 1)
+    @spot_items         = @items.spot         # スポット購入 (kind: 2)
+
     @item = @group.items.build
 
   end
@@ -50,6 +55,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id)
+    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :kind)
   end
 end
