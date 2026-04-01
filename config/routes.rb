@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :items, only: [:index, :create, :update, :destroy] do
     collection do
-    patch :bulk_update
+      patch :bulk_update
     end
   end
 end

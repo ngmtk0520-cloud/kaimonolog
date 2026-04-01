@@ -71,3 +71,6 @@ gem "devise", "~> 5.0"
 
 gem "rspec-rails", "~> 7.1", :groups => [:development, :test]
 gem "factory_bot_rails", "~> 6.5", :groups => [:development, :test]
+
+
+gem "simple_calendar", "~> 2.4"
