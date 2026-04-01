@@ -31,6 +31,16 @@ class ItemsController < ApplicationController
     end
   end
 
+  def destroy
+    @item = @group.items.find(params[:id])
+    @item.destroy
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to items_path, notice: "削除しました"}
+    end
+  end
+
   private
 
   def set_group
