@@ -50,6 +50,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :is_subscription, :is_checked)
+    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id)
   end
 end

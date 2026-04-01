@@ -3,6 +3,8 @@
 <!-- 1. 新しい商品を追加するフォーム -->
 <%= form_with model: @item, url: items_path do |f| %>
   <%= f.text_field :name, placeholder: "買うものを入力", required: true %>
+  <!-- 💥 カテゴリー選択を追加 -->
+  <%= f.collection_select :category_id, @group.categories, :id, :name, { include_blank: "カテゴリーなし" } %>
   <%= f.submit "追加" %>
 <% end %>
 
