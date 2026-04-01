@@ -28,7 +28,11 @@ class ItemsController < ApplicationController
 
   def update
     @item = @group.items.find(params[:id])
+    previously_checked = @item.is_checked
     if @item.update(item_params)
+      if !previously_checked && @item.is_checked
+        @item.purchase_histories.create(group_id: @group.id, bought_at: Time.current)
+      end
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to items_path }
