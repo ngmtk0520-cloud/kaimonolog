@@ -2,7 +2,7 @@
 
 <!-- 1. 新しい商品を追加するフォーム -->
 <%= form_with model: @item, url: items_path do |f| %>
-  <%= f.text_field :name, placeholder: "買うものを入力" %>
+  <%= f.text_field :name, placeholder: "買うものを入力", required: true %>
   <%= f.submit "追加" %>
 <% end %>
 
