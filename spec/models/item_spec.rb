@@ -29,4 +29,16 @@ RSpec.describe Item, type: :model do
     item.kind = :spot
     expect(item.spot?).to be true
   end
+
+  it "購入履歴から平均サイクルを正しく計算すること" do
+    item = Item.create!(name: "牛乳", group: group, kind: :subscription)
+    
+    # 履歴を3つ作る（間隔は 7日 と 7日）
+    item.purchase_histories.create!(group_id: group.id, bought_at: 14.days.ago)
+    item.purchase_histories.create!(group_id: group.id, bought_at: 7.days.ago)
+    item.purchase_histories.create!(group_id: group.id, bought_at: Time.current)
+
+    item.update_average_cycle
+    expect(item.cycle_days).to eq(7)
+  end
 end

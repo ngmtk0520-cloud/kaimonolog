@@ -30,8 +30,11 @@ class ItemsController < ApplicationController
     @item = @group.items.find(params[:id])
     previously_checked = @item.is_checked
     if @item.update(item_params)
+      # 💥 チェックを入れた瞬間（false -> true）の時だけ実行
       if !previously_checked && @item.is_checked
         @item.purchase_histories.create(group_id: @group.id, bought_at: Time.current)
+        # 💥 ここで最新の平均サイクルを計算！
+        @item.update_average_cycle
       end
       respond_to do |format|
         format.turbo_stream
