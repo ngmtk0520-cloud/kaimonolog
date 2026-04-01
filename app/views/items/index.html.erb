@@ -2,6 +2,9 @@
 <!-- 都度購入 -->
 <details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
   <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">🛒 都度購入</summary>
+  <%= button_to "☑️リセット", bulk_update_items_path(kind: "regular"), 
+                method: :patch, 
+                style: "font-size: 11px; color: #666; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 2px 8px; margin: 10px 0; cursor: pointer;" %>
   <!-- 💥 作成した部品を呼び出す（kind: "regular" を渡す） -->
   <%= render "items/form", item: Item.new, kind: "regular" %>
   <div id="regular_items" style="margin-top: 10px;">
@@ -11,6 +14,9 @@
 <!-- 定期購入　-->
 <details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
   <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">🗓 定期購入</summary>
+  <%= button_to "☑️リセット", bulk_update_items_path(kind: "regular"), 
+                method: :patch, 
+                style: "font-size: 11px; color: #666; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 2px 8px; margin: 10px 0; cursor: pointer;" %>
   <!-- 💥 部品を呼び出す（kind: "subscription" を渡す） -->
   <%= render "items/form", item: Item.new, kind: "subscription" %>
   <div id="subscription_items" style="margin-top: 10px;">
@@ -21,6 +27,9 @@
 <!-- スポット購入 -->
 <details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
   <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">📍 スポット購入</summary>
+  <%= button_to "☑️リセット", bulk_update_items_path(kind: "regular"), 
+                method: :patch, 
+                style: "font-size: 11px; color: #666; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 2px 8px; margin: 10px 0; cursor: pointer;" %>
   <%= render "items/form", item: Item.new, kind: "spot" %>
   <div id="spot_items" style="margin-top: 10px;">
     <%= render @spot_items %>

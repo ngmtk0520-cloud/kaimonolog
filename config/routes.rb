@@ -8,5 +8,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :items, only: [:index, :create, :update, :destroy]
+  resources :items, only: [:index, :create, :update, :destroy] do
+    collection do
+    patch :bulk_update
+    end
+  end
 end

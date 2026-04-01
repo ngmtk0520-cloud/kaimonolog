@@ -46,6 +46,14 @@ class ItemsController < ApplicationController
     end
   end
 
+  def bulk_update
+    # 💥 params[:kind] を使って、その種類のチェックだけを外す
+    items_to_reset = @group.items.where(kind: params[:kind], is_checked: true)
+    items_to_reset.update_all(is_checked: false)
+
+    redirect_to items_path, notice: "チェックをリセットしました"
+  end
+
   private
 
   def set_group
