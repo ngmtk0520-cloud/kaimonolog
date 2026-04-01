@@ -5,6 +5,8 @@
     <%= form_with model: item, url: item_path(item), method: :patch, data: { turbo_stream: true } do |f| %>
       <%# 💥 チェックした瞬間に送信！ %>
       <%= f.check_box :is_checked, onchange: "this.form.requestSubmit()" %>
+      <%# 💥 金額入力欄を追加。未入力でもOKにする %>
+      <%= f.number_field :price, placeholder: "￥", style: "width: 60px; font-size: 10px;" %>
     <% end %>
 
     <span style="margin-left: 10px; <%= 'text-decoration: line-through; color: gray;' if item.is_checked %>">

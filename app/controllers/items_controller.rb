@@ -21,6 +21,8 @@ class ItemsController < ApplicationController
 
     @item = @group.items.build
 
+    @expense_chart_data = @group.purchase_histories.where(bought_at: Time.current.all_month).joins(item: :category).group("categories.name").sum(:price)
+
   end
 
   def create
@@ -81,6 +83,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :kind)
+    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :kind, :price)
   end
 end

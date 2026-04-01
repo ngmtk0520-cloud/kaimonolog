@@ -50,4 +50,6 @@
       <% end %>
     </div>
   <% end %>
+  <h2>💰 今月の出費内訳</h2>
+  <%= pie_chart @expense_chart_data, prefix: "¥" %>
 </div>
