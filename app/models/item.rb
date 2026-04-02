@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :group
-  belongs_to :category, optional: true
+  belongs_to :category, optional: false
   has_many :purchase_histories, dependent: :destroy
   # 0: 都度(regular), 1: 定期(subscription), 2: スポット(spot)
   enum kind: { regular: 0, subscription: 1, spot: 2 }

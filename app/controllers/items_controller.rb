@@ -22,6 +22,7 @@ class ItemsController < ApplicationController
     @item = @group.items.build
 
     @expense_chart_data = @group.purchase_histories.where(bought_at: Time.current.all_month).joins(item: :category).group("categories.name").sum(:price)
+    puts "📊 グラフデータの中身: #{@expense_chart_data}"
 
   end
 
@@ -42,10 +43,11 @@ class ItemsController < ApplicationController
   def update
     @item = @group.items.find(params[:id])
     previously_checked = @item.is_checked
-    if @item.update(item_params)
+
+    if @item.update(item_params.except(:price))
       # 💥 チェックを入れた瞬間（false -> true）の時だけ実行
       if !previously_checked && @item.is_checked
-        @item.purchase_histories.create(group_id: @group.id, bought_at: Time.current)
+        @item.purchase_histories.create(group_id: @group.id, bought_at: Time.current, price: item_params[:price])
         # 💥 ここで最新の平均サイクルを計算！
         @item.update_average_cycle
       end

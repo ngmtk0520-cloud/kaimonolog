@@ -9,8 +9,14 @@
       <%= f.number_field :price, placeholder: "￥", style: "width: 60px; font-size: 10px;" %>
     <% end %>
 
-    <span style="margin-left: 10px; <%= 'text-decoration: line-through; color: gray;' if item.is_checked %>">
+    <%# 金額が保存されていたら、(¥500) のように表示する %>
+    <span style="margin-left: 10px; <%= 'text-decoration: line-through;' if item.is_checked %>">
       <%= item.name %>
+      <% if item.is_checked && (last_history = item.purchase_histories.last) %>
+        <% if last_history.price.present? %>
+          <small style="color: green;">(¥<%= last_history.price %>)</small>
+        <% end %>
+      <% end %>
     </span>
   </div>
 
