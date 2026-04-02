@@ -34,9 +34,22 @@ class ItemsController < ApplicationController
         format.html { redirect_to items_path, notice: "アイテムを追加しました！" }
       end
     else
-      # 失敗した場合は通常の画面表示に戻す
-      @items = @group.items.order(created_at: :desc)
-      render :index, status: :unprocessable_entity
+      # 💥 失敗時：View(index.html.erb)が動くために必要な変数をすべて用意する
+      @items = @group.items.includes(:category).order(created_at: :desc)
+      @regular_items = @items.regular
+      @subscription_items = @items.subscription
+      @spot_items = @items.spot
+    
+      # 💥 ここが重要！Viewで find_by している変数も必要です
+      #（View側で直接 @group.categories.find_by... と書いているなら不要ですが、
+      #  もしコントローラー側で定義している場合はここでも定義が必要です）
+    
+      @calendar_events = [] 
+      @expense_chart_data = {}
+
+      respond_to do |format|
+        format.html { render :index, status: :unprocessable_content }
+      end
     end
   end
 

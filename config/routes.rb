@@ -13,4 +13,7 @@ Rails.application.routes.draw do
       patch :bulk_update
     end
   end
+
+  resources :categories, only: [:index, :create, :update, :destroy] do
+  end
 end
