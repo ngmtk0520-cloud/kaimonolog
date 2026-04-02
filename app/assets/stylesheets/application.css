@@ -1,34 +1,235 @@
-/* カレンダーの見た目を整える最低限の設定 */
-.simple-calendar {
-  width: 100%;
-}
-.day {
-  height: 100px;
-  border: 1px solid #ddd;
-}
-.today {
-  background-color: #fff9c4;
-}
-
-/* カテゴリーパネルを横に並べる親要素 */
-.category-panel-container {
-  display: flex !important;      /* 強制的にFlexboxにする */
-  flex-direction: row !important; /* 絶対に横並び */
-  overflow-x: auto;              /* はみ出したら横スクロール */
-  gap: 12px;                     /* パネル同士の隙間 */
-  padding-bottom: 15px;
-  -webkit-overflow-scrolling: touch; /* スマホでスルスル動くように */
+/* --- 1. アプリヘッダー --- */
+.app-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 50;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* 各パネル（link_to）自体の設定 */
+.header-logo-area {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-icon {
+  font-size: 1.25rem;
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #2563eb; /* メインカラーの青 */
+  margin: 0;
+}
+
+.header-nav-icons {
+  display: flex;
+  gap: 1rem;
+  color: #9ca3af; /* グレー */
+}
+
+/* --- 2. ウェルカムエリア --- */
+.welcome-container {
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.welcome-text {
+  color: #374151;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.user-name {
+  color: #111827; /* ニックネームを少し強調 */
+  font-weight: 700;
+}
+
+.main-container {
+  padding: 1rem;
+  padding-bottom: 6rem; /* フッター分の余白 */
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+/* --- 2. カテゴリーパネル (横並びフォルダ) --- */
+.category-scroll-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  overflow-x: auto;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
 .category-card {
-  flex-shrink: 0 !important;     /* 絶対に横幅を潰さない */
-  width: 110px;                  /* 横幅を固定 */
-  display: block;                /* 箱として扱う */
-  background: white;
-  padding: 16px;
-  border-radius: 20px;
+  flex-shrink: 0 !important;
+  width: 110px;
+  display: block;
+  background: rgb(146, 234, 220);
+  padding: 1.25rem 1rem;
+  border-radius: 1.25rem;
   text-align: center;
-  text-decoration: none;         /* リンクの下線を消す */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+
+
+.category-card-icon {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+/* 「通常購入」などの文字 */
+.category-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4b5563; /* グレー */
+}
+
+/* 「〇点」の数字部分 */
+.category-card-count {
+  color: #2563eb; /* 青色 */
+  font-weight: 900;
+  font-size: 0.875rem;
+}
+
+/* --- 3. メインリストエリア --- */
+.list-container {
+  background-color: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #f3f4f6;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.list-header {
+  padding: 1.25rem;
+  border-bottom: 1px solid #f9fafb;
+  background-color: rgba(249, 250, 251, 0.951);
+  font-size: 1rem;
+  font-weight: bold;
+  color: #374151;
+}
+
+/* アイテム追加（フォーム）の背景 */
+.list-add-section {
+  padding: 1rem;
+  background-color: white;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* アイテム同士の区切り線 */
+.list-items-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 境界線（Tailwindのdivide-yの代わり） */
+.list-items-wrapper > * {
+  border-bottom: 1px solid #f9fafb;
+}
+
+.list-items-wrapper > *:last-child {
+  border-bottom: none;
+}
+
+/* 空の状態のメッセージ */
+.list-empty-message {
+  padding: 2.5rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+/* --- 4. フッターナビ --- */
+.footer-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid #e5e7eb;
+  padding: 0.5rem 0 1.5rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+.nav-item-active {
+  color: #3b82f6;
+}
+
+/* --- 5. AI提案エリア --- */
+.ai-suggestion-container {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: linear-gradient(to bottom right, #fffdf2, #fff7ed); /* 薄い黄色〜オレンジのグラデ */
+  border: 1px solid #fef3c7;
+  border-radius: 1.5rem;
+}
+
+.ai-suggestion-header {
+  font-weight: bold;
+  color: #92400e; /* 濃い茶色 */
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.ai-suggestion-card {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  margin-bottom: 0.75rem;
+}
+
+.ai-suggestion-icon {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.ai-suggestion-text {
+  font-size: 0.75rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.highlight-text {
+  color: #ea580c; /* オレンジ強調 */
+}
+
+.ai-empty-message {
+  text-align: center;
+  padding: 0.5rem 0;
+  font-size: 0.75rem;
+  color: #9ca3af;
 }

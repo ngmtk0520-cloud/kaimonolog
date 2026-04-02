@@ -1,84 +1,86 @@
-<%# 1. ヘッダー %>
-<header class="sticky top-0 bg-white border-b z-50 p-4 flex justify-between items-center shadow-sm">
-  <h1 class="text-xl font-bold text-blue-600">🛒 Kaimonolog</h1>
-  <div class="flex gap-4 text-gray-500">
+<%# 1. アプリヘッダー %>
+<header class="app-header">
+  <div class="header-logo-area">
+    <span class="header-icon">🛒</span>
+    <h1 class="header-title">Kaimonolog</h1>
+  </div>
+  <div class="header-nav-icons">
     <i class="fas fa-calendar"></i>
     <i class="fas fa-chart-pie"></i>
     <i class="fas fa-cog"></i>
   </div>
 </header>
 
-<main class="p-4 pb-24 bg-gray-50 min-h-screen">
-  <%# 2. ウェルカムメッセージ %>
-  <div class="mb-6 px-2">
-    <p class="text-gray-700 text-lg font-medium">こんにちは、<%= current_user.nickname %>さん！</p>
+<main class="main-container">
+  <%# 2. ユーザーウェルカムエリア %>
+  <div class="welcome-container">
+    <p class="welcome-text">
+      こんにちは、<span class="user-name"><%= current_user.nickname %></span>さん！
+    </p>
   </div>
 
   <%# 3. カテゴリーパネル (フォルダ選択) %>
-  <div class= "category-panel-container">
-    <%# 通常購入パネル %>
-    <%= link_to items_path(kind: "regular"), data: { turbo_frame: "item_list" }, class: "category-card" do %>
-      <div class="text-2xl mb-1">🛒</div>
-      <div class="text-xs font-bold text-gray-600">通常購入</div>
-      <div class="text-blue-600 font-black"><%= @regular_items.count %>点</div>
-    <% end %>
+  <div class="category-scroll-wrapper">
+    <% [
+      { kind: "regular",      name: "通常購入", emoji: "🛒", items: @regular_items },
+      { kind: "subscription", name: "定期購入", emoji: "🗓️", items: @subscription_items },
+      { kind: "spot",         name: "スポット購入", emoji: "📍", items: @spot_items }
+    ].each do |panel| %>
+      
+      <%= link_to items_path(kind: panel[:kind]), 
+          data: { turbo_frame: "item_list" }, 
+          class: "category-card #{ 'category-card-active' if @current_kind == panel[:kind] }" do %>
+        <div class="category-card-icon"><%= panel[:emoji] %></div>
+        <div class="category-card-title"><%= panel[:name] %></div>
+        <div class="category-card-count"><%= panel[:items].count %>点</div>
+      <% end %>
 
-    <%# 定期購入パネル %>
-    <%= link_to items_path(kind: "subscription"), data: { turbo_frame: "item_list" }, class: "category-card" do %>
-      <div class="text-2xl mb-1">🗓️</div>
-      <div class="text-xs font-bold text-gray-600">定期購入</div>
-      <div class="text-blue-600 font-black"><%= @subscription_items.count %>点</div>
-    <% end %>
-    <%# スポット %>
-    <%= link_to items_path(kind: "spot"), data: { turbo_frame: "item_list" }, class: "category-card" do %>
-      <div class="text-2xl mb-1">📍</div>
-      <div class="text-xs font-bold text-gray-600">スポット</div>
-      <div class="text-blue-600 font-black"><%= @spot_items.count %>点</div>
     <% end %>
   </div>
 
   <%# 4. メインリストエリア %>
-  <%= turbo_frame_tag "item_list" do %>
-    <div class="p-5 border-b border-gray-50 bg-gray-50/50">
-      <h2 class="text-md font-bold text-gray-700">
+  <div class="list-container">
+    <%= turbo_frame_tag "item_list" do %>
+      <%# ヘッダー部分 %>
+      <h2 class="list-header">
         買い物リスト (<%= @current_kind_name || "通常購入" %>)
       </h2>
-    </div>
 
-    <%# リスト追加エリア %>
-    <div class="p-4 bg-white border-b border-gray-50">
-       <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
-    </div>
+      <%# 入力エリア %>
+      <div class="list-add-section">
+        <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
+      </div>
 
-    <%# アイテム一覧 %>
-    <div class="divide-y divide-gray-50">
-      <% if @display_items.present? %>
-        <%= render @display_items %>
-      <% else %>
-        <p class="p-10 text-center text-gray-400 text-sm">表示するアイテムはありません</p>
-      <% end %>
-    </div>
-  <% end %>
+      <%# アイテム一覧エリア %>
+      <div class="list-items-wrapper">
+        <% if @display_items.present? %>
+          <%= render @display_items %>
+        <% else %>
+          <p class="list-empty-message">表示するアイテムはありません</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 
   <%# 5. AI提案エリア %>
-  <div class="mt-8 p-5 bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-100 rounded-3xl">
-    <h3 class="font-bold text-yellow-800 text-sm mb-3 flex items-center">
+  <div class="ai-suggestion-container">
+    <h3 class="ai-suggestion-header">
       <span class="mr-2">💡</span> AIからのアドバイス
     </h3>
     
-    <div class="space-y-3">
+    <div class="ai-suggestion-list">
       <% if @ai_suggestions.present? %>
         <% @ai_suggestions.each do |item| %>
-          <div class="flex items-center bg-white/60 p-3 rounded-xl border border-yellow-200/50 shadow-sm">
-            <span class="text-xl mr-3">⚠️</span>
-            <span class="text-xs text-gray-700 font-medium">
-              そろそろ「<strong class="text-orange-600"><%= item.name %></strong>」がなくなる頃ではありませんか？
+          <div class="ai-suggestion-card">
+            <span class="ai-suggestion-icon">⚠️</span>
+            <span class="ai-suggestion-text">
+              そろそろ「<strong class="highlight-text"><%= item.name %></strong>」がなくなる頃ではありませんか？
             </span>
           </div>
         <% end %>
       <% else %>
-        <div class="text-center py-2">
-          <span class="text-xs text-gray-400">ストックはバッチリです ✨</span>
+        <div class="ai-empty-message">
+          <span>ストックはバッチリです ✨</span>
         </div>
       <% end %>
     </div>
@@ -86,29 +88,22 @@
 </main>
 
 <%# 6. スマホ用フッターナビ %>
-<footer style="position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.95); border-top: 1px solid #ddd; padding: 10px 0 25px 0; display: flex; flex-direction: row; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);">
-
-  <%# ホーム %>
-  <div style="display: flex; flex-direction: column; align-items: center; width: 25%; color: #2563eb;">
-    <div style="font-size: 20px;">🏠</div>
-    <div style="font-size: 10px; font-weight: bold;">ホーム</div>
-  </div>
-
-  <%# 購入履歴 %>
-  <div style="display: flex; flex-direction: column; align-items: center; width: 25%; color: #9ca3af;">
-    <div style="font-size: 20px;">📅</div>
-    <div style="font-size: 10px; font-weight: bold;">購入履歴</div>
-  </div>
-
-  <%# 分析（グラフへ） %>
-  <div style="display: flex; flex-direction: column; align-items: center; width: 25%; color: #9ca3af;">
-    <div style="font-size: 20px;">📊</div>
-    <div style="font-size: 10px; font-weight: bold;">分析</div>
-  </div>
-
-  <%# 設定 %>
-  <div style="display: flex; flex-direction: column; align-items: center; width: 25%; color: #9ca3af;">
-    <div style="font-size: 20px;">⚙️</div>
-    <div style="font-size: 10px; font-weight: bold;">設定</div>
-  </div>
+<footer class="footer-nav">
+  <a href="#" class="nav-item nav-item-active">
+    <div class="text-xl">🏠</div>
+    <div class="text-[10px] font-bold">ホーム</div>
+  </a>
+  <a href="#" class="nav-item">
+    <div class="text-xl">📅</div>
+    <div class="text-[10px] font-bold">予定</div>
+  </a>
+  <a href="#" class="nav-item">
+    <div class="text-xl">📊</div>
+    <div class="text-[10px] font-bold">分析</div>
+  </a>
+  <a href="#" class="nav-item">
+    <div class="text-xl">⚙️</div>
+    <div class="text-[10px] font-bold">設定</div>
+  </a>
+  <%# グラフ、設定も同様に nav-item を適用 %>
 </footer>
