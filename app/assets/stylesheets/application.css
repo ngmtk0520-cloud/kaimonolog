@@ -9,3 +9,26 @@
 .today {
   background-color: #fff9c4;
 }
+
+/* カテゴリーパネルを横に並べる親要素 */
+.category-panel-container {
+  display: flex !important;      /* 強制的にFlexboxにする */
+  flex-direction: row !important; /* 絶対に横並び */
+  overflow-x: auto;              /* はみ出したら横スクロール */
+  gap: 12px;                     /* パネル同士の隙間 */
+  padding-bottom: 15px;
+  -webkit-overflow-scrolling: touch; /* スマホでスルスル動くように */
+}
+
+/* 各パネル（link_to）自体の設定 */
+.category-card {
+  flex-shrink: 0 !important;     /* 絶対に横幅を潰さない */
+  width: 110px;                  /* 横幅を固定 */
+  display: block;                /* 箱として扱う */
+  background: white;
+  padding: 16px;
+  border-radius: 20px;
+  text-align: center;
+  text-decoration: none;         /* リンクの下線を消す */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}

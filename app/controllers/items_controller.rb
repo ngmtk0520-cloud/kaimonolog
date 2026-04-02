@@ -5,10 +5,32 @@ class ItemsController < ApplicationController
   def index
     @items = @group.items.includes(:category).order(created_at: :desc)
 
-    @regular_items      = @items.regular      # 都度購入 (kind: 0)
-    @subscription_items = @items.subscription # 定期購入 (kind: 1)
-    @spot_items         = @items.spot         # スポット購入 (kind: 2)
+    @regular_items      = @items.regular
+    @subscription_items = @items.subscription
+    @spot_items         = @items.spot
 
+    # 💥 パラメータに応じて表示するものを切り替える
+    @current_kind = params[:kind] || "regular"
+    
+    # 表示用の名前とカテゴリーをセット
+    case @current_kind
+    when "regular"
+      @display_items = @regular_items
+      @current_kind_name = "通常購入"
+      @current_category = @group.categories.find_by(name: "通常購入")
+    when "subscription"
+      @display_items = @subscription_items
+      @current_kind_name = "定期購入"
+      @current_category = @group.categories.find_by(name: "定期購入")
+    when "spot"
+      @display_items = @spot_items
+      @current_kind_name = "スポット購入"
+      @current_category = @group.categories.find_by(name: "スポット購入")
+    else
+    # 💥 万が一変な値が来ても、通常購入を表示させる（保険）
+      @display_items = @regular_items
+      @current_kind_name = "通常購入"
+    end
     # アプリ内カレンダー用の「予定データ」を作成
     @calendar_events = []
     @group.items.subscription.where("cycle_days > 0").each do |item|
@@ -24,6 +46,14 @@ class ItemsController < ApplicationController
     @expense_chart_data = @group.purchase_histories.where(bought_at: Time.current.all_month).joins(item: :category).group("categories.name").sum(:price)
     puts "📊 グラフデータの中身: #{@expense_chart_data}"
 
+    # 💥 今日が予測日、または予測日を過ぎている「買い時」なアイテムを3件だけ抽出
+    @ai_suggestions = @group.items.subscription.where("cycle_days > 0").select do |item|
+      last_bought = item.purchase_histories.order(:bought_at).last&.bought_at || 10.days.ago
+      next_date = (last_bought + item.cycle_days.days).to_date
+      
+      # 🚀 予測日が「3日後」までなら提案に載せる
+      next_date <= Date.today + 3.days
+    end.first(3)
   end
 
   def create

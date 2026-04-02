@@ -1,69 +1,114 @@
-<h1>🛒 買い物リスト</h1>
-<!-- 通常購入 -->
-<details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
-  <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">🛒 通常購入</summary>
-  <%= button_to "☑️リセット", bulk_update_items_path(kind: "regular"), 
-                method: :patch, 
-                style: "font-size: 11px; color: #666; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 2px 8px; margin: 10px 0; cursor: pointer;" %>
-  <!-- 💥 作成した部品を呼び出す（kind: "regular" を渡す） -->
-  <%= render "items/form", item: Item.new, kind: "regular", category: @group.categories.find_by(name: "通常購入") %>
-  <div id="regular_items" style="margin-top: 10px;">
-    <% if @regular_items.present? %>
-      <%= render @regular_items %>
-    <% else %>
-      <p style="font-size: 0.8rem; color: gray;">アイテムがありません</p>
+<%# 1. ヘッダー %>
+<header class="sticky top-0 bg-white border-b z-50 p-4 flex justify-between items-center shadow-sm">
+  <h1 class="text-xl font-bold text-blue-600">🛒 Kaimonolog</h1>
+  <div class="flex gap-4 text-gray-500">
+    <i class="fas fa-calendar"></i>
+    <i class="fas fa-chart-pie"></i>
+    <i class="fas fa-cog"></i>
+  </div>
+</header>
+
+<main class="p-4 pb-24 bg-gray-50 min-h-screen">
+  <%# 2. ウェルカムメッセージ %>
+  <div class="mb-6 px-2">
+    <p class="text-gray-700 text-lg font-medium">こんにちは、<%= current_user.nickname %>さん！</p>
+  </div>
+
+  <%# 3. カテゴリーパネル (フォルダ選択) %>
+  <div class= "category-panel-container">
+    <%# 通常購入パネル %>
+    <%= link_to items_path(kind: "regular"), data: { turbo_frame: "item_list" }, class: "category-card" do %>
+      <div class="text-2xl mb-1">🛒</div>
+      <div class="text-xs font-bold text-gray-600">通常購入</div>
+      <div class="text-blue-600 font-black"><%= @regular_items.count %>点</div>
+    <% end %>
+
+    <%# 定期購入パネル %>
+    <%= link_to items_path(kind: "subscription"), data: { turbo_frame: "item_list" }, class: "category-card" do %>
+      <div class="text-2xl mb-1">🗓️</div>
+      <div class="text-xs font-bold text-gray-600">定期購入</div>
+      <div class="text-blue-600 font-black"><%= @subscription_items.count %>点</div>
+    <% end %>
+    <%# スポット %>
+    <%= link_to items_path(kind: "spot"), data: { turbo_frame: "item_list" }, class: "category-card" do %>
+      <div class="text-2xl mb-1">📍</div>
+      <div class="text-xs font-bold text-gray-600">スポット</div>
+      <div class="text-blue-600 font-black"><%= @spot_items.count %>点</div>
     <% end %>
   </div>
-</details>
-<!-- 定期購入　-->
-<details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
-  <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">🗓 定期購入</summary>
-  <%= button_to "☑️リセット", bulk_update_items_path(kind: "subscription"), 
-                method: :patch, 
-                style: "font-size: 11px; color: #666; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 2px 8px; margin: 10px 0; cursor: pointer;" %>
-  <!-- 💥 部品を呼び出す（kind: "subscription" を渡す） -->
-  <%= render "items/form", item: Item.new, kind: "subscription", category: @group.categories.find_by(name: "定期購入") %>
 
-  <div id="subscription_items" style="margin-top: 10px;">
-    <% if @subscription_items.present? %>
-      <%= render @subscription_items %>
-    <% else %>
-      <p style="font-size: 0.8rem; color: gray;">アイテムがありません</p>
-    <% end %>
-  </div>
-</details>
+  <%# 4. メインリストエリア %>
+  <%= turbo_frame_tag "item_list" do %>
+    <div class="p-5 border-b border-gray-50 bg-gray-50/50">
+      <h2 class="text-md font-bold text-gray-700">
+        買い物リスト (<%= @current_kind_name || "通常購入" %>)
+      </h2>
+    </div>
 
-<!-- スポット購入 -->
-<details open style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
-  <summary style="font-size: 1.2rem; cursor: pointer; font-weight: bold;">📍 スポット購入</summary>
-  <%= button_to "☑️リセット", bulk_update_items_path(kind: "spot"), 
-                method: :patch, 
-                style: "font-size: 11px; color: #666; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 2px 8px; margin: 10px 0; cursor: pointer;" %>
-  <!-- 💥 部品を呼び出す（kind: "spot" を渡す） -->
-  <%= render "items/form", item: Item.new, kind: "spot", category: @group.categories.find_by(name: "スポット購入") %>
-  <div id="spot_items" style="margin-top: 10px;">
-    <% if @spot_items.present? %>
-      <%= render @spot_items %>
-    <% else %>
-      <p style="font-size: 0.8rem; color: gray;">アイテムがありません</p>
-    <% end %>
-  </div>
-</details>
+    <%# リスト追加エリア %>
+    <div class="p-4 bg-white border-b border-gray-50">
+       <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
+    </div>
 
-<hr>
-<div style="margin-top: 30px;">
-  <h2>📅 次回の買い出し予定（AI予測）</h2>
-  
-  <%= month_calendar(events: @calendar_events) do |date, events| %>
-    <div style="min-height: 60px;">
-      <%= date.day %>
-      <% events.each do |event| %>
-        <div style="font-size: 10px; background: #e3f2fd; border-radius: 3px; padding: 2px; margin-top: 2px; color: #1976d2;">
-          <%= event.name %>
-        </div>
+    <%# アイテム一覧 %>
+    <div class="divide-y divide-gray-50">
+      <% if @display_items.present? %>
+        <%= render @display_items %>
+      <% else %>
+        <p class="p-10 text-center text-gray-400 text-sm">表示するアイテムはありません</p>
       <% end %>
     </div>
   <% end %>
-  <h2>💰 今月の出費内訳</h2>
-  <%= pie_chart @expense_chart_data, prefix: "¥", empty: "データがまだありません" %>
-</div>
+
+  <%# 5. AI提案エリア %>
+  <div class="mt-8 p-5 bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-100 rounded-3xl">
+    <h3 class="font-bold text-yellow-800 text-sm mb-3 flex items-center">
+      <span class="mr-2">💡</span> AIからのアドバイス
+    </h3>
+    
+    <div class="space-y-3">
+      <% if @ai_suggestions.present? %>
+        <% @ai_suggestions.each do |item| %>
+          <div class="flex items-center bg-white/60 p-3 rounded-xl border border-yellow-200/50 shadow-sm">
+            <span class="text-xl mr-3">⚠️</span>
+            <span class="text-xs text-gray-700 font-medium">
+              そろそろ「<strong class="text-orange-600"><%= item.name %></strong>」がなくなる頃ではありませんか？
+            </span>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="text-center py-2">
+          <span class="text-xs text-gray-400">ストックはバッチリです ✨</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</main>
+
+<%# 6. スマホ用フッターナビ %>
+<footer style="position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.95); border-top: 1px solid #ddd; padding: 10px 0 25px 0; display: flex; flex-direction: row; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);">
+
+  <%# ホーム %>
+  <div style="display: flex; flex-direction: column; align-items: center; width: 25%; color: #2563eb;">
+    <div style="font-size: 20px;">🏠</div>
+    <div style="font-size: 10px; font-weight: bold;">ホーム</div>
+  </div>
+
+  <%# 購入履歴 %>
+  <div style="display: flex; flex-direction: column; align-items: center; width: 25%; color: #9ca3af;">
+    <div style="font-size: 20px;">📅</div>
+    <div style="font-size: 10px; font-weight: bold;">購入履歴</div>
+  </div>
+
+  <%# 分析（グラフへ） %>
+  <div style="display: flex; flex-direction: column; align-items: center; width: 25%; color: #9ca3af;">
+    <div style="font-size: 20px;">📊</div>
+    <div style="font-size: 10px; font-weight: bold;">分析</div>
+  </div>
+
+  <%# 設定 %>
+  <div style="display: flex; flex-direction: column; align-items: center; width: 25%; color: #9ca3af;">
+    <div style="font-size: 20px;">⚙️</div>
+    <div style="font-size: 10px; font-weight: bold;">設定</div>
+  </div>
+</footer>
