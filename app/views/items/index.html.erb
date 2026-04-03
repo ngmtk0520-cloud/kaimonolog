@@ -1,17 +1,5 @@
 <%# アプリヘッダー %>
-<header class="app-header">
-  <h1>
-    <%= link_to image_tag("kaimonolog.png", alt: "Kaimonolog", class: "header-logo"), root_path(@item) %>
-  </h1>
-  <%# ユーザーウェルカムエリア %>
-  <div class="welcome-container">
-    <p class="welcome-text">
-      <p class="greeting">こんにちは</p>
-      <span class="user-name"><%= current_user.nickname %></span>さん！
-    </p>
-  </div>
-
-</header>
+<%= render "items/header" %>
 
 <main class="main-container">
 
@@ -80,21 +68,4 @@
 </main>
 
 <%# スマホ用フッターナビ %>
-<footer class="footer-nav">
-  <a href="<%= items_path%>" class="nav-item <%= current_page?(items_path) ? 'nav-item-active' : '' %>">
-    <div class="text-xl">🏠</div>
-    <div class="text-[10px] font-bold">ホーム</div>
-  </a>
-  <a href="#" class="nav-item">
-    <div class="text-xl">📅</div>
-    <div class="text-[10px] font-bold">予定</div>
-  </a>
-  <a href="#" class="nav-item">
-    <div class="text-xl">📊</div>
-    <div class="text-[10px] font-bold">収支表</div>
-  </a>
-  <a href="#" class="nav-item">
-    <div class="text-xl">⚙️</div>
-    <div class="text-[10px] font-bold">設定</div>
-  </a>
-</footer>
+<%= render "items/footer" %>

@@ -76,3 +76,5 @@ gem "factory_bot_rails", "~> 6.5", :groups => [:development, :test]
 gem "simple_calendar", "~> 2.4"
 gem "chartkick"
 gem "groupdate" # 日付ごとの集計を楽にするツール
+
+gem 'rails-i18n'

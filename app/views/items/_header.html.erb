@@ -1,0 +1,13 @@
+<header class="app-header">
+  <h1>
+    <%= link_to image_tag("kaimonolog.png", alt: "Kaimonolog", class: "header-logo"), root_path(@item) %>
+  </h1>
+  <%# ユーザーウェルカムエリア %>
+  <div class="welcome-container">
+    <p class="welcome-text">
+      <p class="greeting">こんにちは</p>
+      <span class="user-name"><%= current_user.nickname %></span>さん！
+    </p>
+  </div>
+
+</header>

@@ -1,3 +1,5 @@
+
+
 /* --- 1. アプリヘッダー --- */
 .app-header {
   max-width: 100%;
@@ -233,4 +235,50 @@
 
 .nav-item-active {
   color: #3b82f6;
+}
+
+/* --- カレンダーエリア --- */
+.simple-calendar {
+  width: 100%;
+  max-width: 600px; 
+  margin: 0 auto;
+}
+
+/* tableタグに対して設定 */
+.simple-calendar table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 5px; /* セル間の隙間 */
+  table-layout: fixed; /* セルの幅を均等に */
+}
+
+/* 曜日(th)と日付(td)の両方に高さを指定 */
+.simple-calendar th,
+.simple-calendar td {
+  text-align: center;
+  vertical-align: middle;
+  height: 70px; /* 高さを統一 */
+  padding: 0;
+}
+
+/* 日付の中身を整える */
+.calendar-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.purchase_history {
+  padding: 0.25rem 0.5rem;
+  display: inline-block;
+  text-decoration: none;
+  color: inherit; 
+}
+
+.purchase_history.active {
+  background-color: #3385c8;
+  color: white;
+  border-radius: 0.5rem;
 }

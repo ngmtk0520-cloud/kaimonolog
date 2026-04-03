@@ -1,0 +1,18 @@
+<footer class="footer-nav">
+  <a href="<%= items_path%>" class="nav-item <%= current_page?(items_path) ? 'nav-item-active' : '' %>">
+    <div class="text-xl">🏠</div>
+    <div class="text-[10px] font-bold">ホーム</div>
+  </a>
+  <a href="<%= calendars_path %>" class="nav-item <%= current_page?(calendars_path) ? 'nav-item-active' : '' %>">
+    <div class="text-xl">📅</div>
+    <div class="text-[10px] font-bold">買い物履歴</div>
+  </a>
+  <a href="#" class="nav-item <%= current_page?(items_path) ? 'nav-item-active' : '' %>">
+    <div class="text-xl">📊</div>
+    <div class="text-[10px] font-bold">収支表</div>
+  </a>
+  <a href="#" class="nav-item <%= current_page?(items_path) ? 'nav-item-active' : '' %>">
+    <div class="text-xl">⚙️</div>
+    <div class="text-[10px] font-bold">設定</div>
+  </a>
+</footer>

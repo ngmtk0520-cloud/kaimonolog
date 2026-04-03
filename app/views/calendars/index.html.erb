@@ -1,0 +1,14 @@
+<!-- "カレンダーのトップページ" -->
+<%= render "items/header" %>
+
+<div class=simple-calendar>
+  <%= month_calendar(events: @calendar_events) do |date, events| %>
+    <div class="calendar-date" style="font-weight: bold; color: <%= 'blue' if date.saturday? %><%= 'red' if date.sunday? %>">
+      <a href="#" class="purchase_history <%= 'active' if events.any? %>">
+        <%= date.strftime("%e") %>
+      </a>
+    </div>
+  <% end %>
+</div>
+<!--"フッターナビ" -->
+<%= render "items/footer" %>
