@@ -50,6 +50,7 @@ class ItemsController < ApplicationController
   def create
     @item = @group.items.build(item_params)
     if @item.save
+      @current_items_count = @group.items.where(kind: @item.kind).count
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to items_path, notice: "アイテムを追加しました！" }

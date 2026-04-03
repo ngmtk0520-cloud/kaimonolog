@@ -36,14 +36,14 @@
           class: "category-card #{ 'category-card-active' if @current_kind == panel[:kind] }" do %>
         <div class="category-card-icon"><%= panel[:emoji] %></div>
         <div class="category-card-title"><%= panel[:name] %></div>
-        <div class="category-card-count"><%= panel[:items].count %>点</div>
+        <div id="<%= panel[:kind] %>_count" class="category-card-count">
       <% end %>
 
     <% end %>
   </div>
 
   <%# メインリストエリア %>
-  <div id="form_<%= @current_kind || 'regular' %>" class="list-container">
+  <div class="list-container">
     <%= turbo_frame_tag "item_list" do %>
       <%# ヘッダー部分 %>
       <h2 class="list-header">
@@ -51,7 +51,7 @@
       </h2>
 
       <%# 入力エリア %>
-      <div class="list-container">
+      <div id="form_<%= @current_kind || 'regular' %>" class="list-add-section">
         <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
         <%# 一括リセットボタン %>
         <div class=reset-button>
