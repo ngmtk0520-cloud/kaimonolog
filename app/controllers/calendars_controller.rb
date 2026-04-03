@@ -4,15 +4,8 @@ class CalendarsController < ApplicationController
   before_action :set_beginning_of_week
 
   def index
-    # アプリ内カレンダー用の「予定データ」を作成
-    @calendar_events = []
-    @group.items.subscription.where("cycle_days > 0").each do |item|
-      # 最新購入日 ＋ 平均サイクル ＝ 次回予定日
-      last_bought = item.purchase_histories.order(:bought_at).last&.bought_at || Time.current
-      next_date = (last_bought + item.cycle_days.days).to_date
-      # Simple Calendarに渡す形式（名称と開始日）
-      @calendar_events << OpenStruct.new(name: "🛒 #{item.name}", start_time: next_date)
-    end
+    # アプリ内カレンダー用の「購入履歴」
+    @calendar_events = PurchaseHistory.where(item_id: @group.items.pluck(:id))
   end
 
   private
