@@ -1,7 +1,9 @@
 <%# kind（regular, subscription, spot）を受け取ってフォームを作ります %>
-<%= form_with model: item, url: items_path, id: "form_#{kind}" do |f| %>
-  <%= f.hidden_field :kind, value: kind %>
-  <%= f.hidden_field :category_id, value: (local_assigns[:category] ? category&.id : nil) %>
-  <%= f.text_field :name, placeholder: "商品名を入力", required: true %>
-  <%= f.submit "追加" %>
-<% end %>
+<div id="form_<%= kind %>">
+  <%= form_with model: item, url: items_path, id: "form_#{kind}" do |f| %>
+    <%= f.hidden_field :kind, value: kind %>
+    <%= f.hidden_field :category_id, value: (local_assigns[:category] ? category&.id : nil) %>
+    <%= f.text_field :name, placeholder: "商品名を入力", required: true %>
+    <%= f.submit "追加" %>
+  <% end %>
+</div>

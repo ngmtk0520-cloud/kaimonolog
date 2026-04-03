@@ -51,7 +51,7 @@
       </h2>
 
       <%# 入力エリア %>
-      <div class="list-add-section">
+    <div id="form_<%= @current_kind || 'regular' %>" class="list-add-section">
         <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
         <%# 一括リセットボタン %>
         <div class=reset-button>
@@ -60,7 +60,7 @@
       </div>
 
       <%# アイテム一覧エリア %>
-      <div class="list-items-wrapper">
+      <div id="<%= @current_kind || 'regular' %>_items" class="list-items-wrapper">
         <% if @display_items.present? %>
           <%= render @display_items %>
         <% else %>
