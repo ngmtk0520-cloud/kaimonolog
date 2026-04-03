@@ -1,26 +1,38 @@
 /* --- 1. アプリヘッダー --- */
 .app-header {
-  height: 50px;
+  max-width: 100%;
+  width: fit-content;
+  margin-inline: auto;
+  height: 60px;
   width: 100%;
   background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header-logo {
   height: 100%;
   width: 150px;
   object-fit: contain;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  margin-bottom: 0.2rem;
+;
 }
 
 /* --- 2. ウェルカムエリア --- */
 .welcome-container {
   margin-bottom: 1.5rem;
-  padding: 0 0.5rem;
+  padding: 0 0.2rem;
 }
 
 .welcome-text {
   color: #374151;
   font-size: 1.125rem;
   font-weight: 500;
+  margin-top: 2.5rem;
+  margin-right: 3rem;
 }
 
 .user-name {
@@ -35,8 +47,69 @@
   min-height: 100vh;
 }
 
-/* --- 2. カテゴリーパネル (横並びフォルダ) --- */
+/* --- 5. AI提案エリア --- */
+.ai-suggestion-container {
+  max-width: 100%;
+  width: fit-content;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background: linear-gradient(to bottom right, #fffdf2, #fff7ed); /* 薄い黄色〜オレンジのグラデ */
+  border: 1px solid #fef3c7;
+  border-radius: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-inline: auto;
+}
+
+.ai-suggestion-header {
+  font-weight: bold;
+  color: #92400e; /* 濃い茶色 */
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.ai-suggestion-card {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  margin-bottom: 0.75rem;
+}
+
+.ai-suggestion-icon {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.ai-suggestion-text {
+  font-size: 0.75rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.highlight-text {
+  color: #ea580c; /* オレンジ強調 */
+}
+
+.ai-empty-message {
+  text-align: center;
+  padding: 0.5rem 0;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+
+/* --- カテゴリーパネル (横並びフォルダ) --- */
 .category-scroll-wrapper {
+  max-width: 100%;
+  width: fit-content;
   display: flex !important;
   flex-direction: row !important;
   overflow-x: auto;
@@ -44,6 +117,7 @@
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
   -webkit-overflow-scrolling: touch;
+  margin-inline: auto;
 }
 
 .category-card {
@@ -83,6 +157,9 @@
 
 /* --- 3. メインリストエリア --- */
 .list-container {
+  max-width: 100%;
+  width: fit-content;
+  margin-inline: auto;
   background-color: white;
   border-radius: 1.5rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -157,55 +234,4 @@
 
 .nav-item-active {
   color: #3b82f6;
-}
-
-/* --- 5. AI提案エリア --- */
-.ai-suggestion-container {
-  margin-top: 2rem;
-  padding: 1.25rem;
-  background: linear-gradient(to bottom right, #fffdf2, #fff7ed); /* 薄い黄色〜オレンジのグラデ */
-  border: 1px solid #fef3c7;
-  border-radius: 1.5rem;
-}
-
-.ai-suggestion-header {
-  font-weight: bold;
-  color: #92400e; /* 濃い茶色 */
-  font-size: 0.875rem;
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-}
-
-.ai-suggestion-card {
-  display: flex;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.6);
-  padding: 0.75rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(251, 191, 36, 0.2);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  margin-bottom: 0.75rem;
-}
-
-.ai-suggestion-icon {
-  font-size: 1.25rem;
-  margin-right: 0.75rem;
-}
-
-.ai-suggestion-text {
-  font-size: 0.75rem;
-  color: #374151;
-  font-weight: 500;
-}
-
-.highlight-text {
-  color: #ea580c; /* オレンジ強調 */
-}
-
-.ai-empty-message {
-  text-align: center;
-  padding: 0.5rem 0;
-  font-size: 0.75rem;
-  color: #9ca3af;
 }

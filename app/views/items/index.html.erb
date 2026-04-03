@@ -1,62 +1,20 @@
-<%# 1. アプリヘッダー %>
+<%# アプリヘッダー %>
 <header class="app-header">
   <h1>
-    <%= link_to image_tag("kaimonolog.png", alt: "Kaimonolog", class: "header-logo"), root_path %>
+    <%= link_to image_tag("kaimonolog.png", alt: "Kaimonolog", class: "header-logo"), root_path(@item) %>
   </h1>
-</header>
-
-<main class="main-container">
-  <%# 2. ユーザーウェルカムエリア %>
+  <%# ユーザーウェルカムエリア %>
   <div class="welcome-container">
     <p class="welcome-text">
       こんにちは、<span class="user-name"><%= current_user.nickname %></span>さん！
     </p>
   </div>
 
-  <%# 3. カテゴリーパネル (フォルダ選択) %>
-  <div class="category-scroll-wrapper">
-    <% [
-      { kind: "regular",      name: "通常購入", emoji: "🛒", items: @regular_items },
-      { kind: "subscription", name: "定期購入", emoji: "🗓️", items: @subscription_items },
-      { kind: "spot",         name: "スポット購入", emoji: "📍", items: @spot_items }
-    ].each do |panel| %>
-      
-      <%= link_to items_path(kind: panel[:kind]), 
-          data: { turbo_frame: "item_list" }, 
-          class: "category-card #{ 'category-card-active' if @current_kind == panel[:kind] }" do %>
-        <div class="category-card-icon"><%= panel[:emoji] %></div>
-        <div class="category-card-title"><%= panel[:name] %></div>
-        <div class="category-card-count"><%= panel[:items].count %>点</div>
-      <% end %>
+</header>
 
-    <% end %>
-  </div>
+<main class="main-container">
 
-  <%# 4. メインリストエリア %>
-  <div class="list-container">
-    <%= turbo_frame_tag "item_list" do %>
-      <%# ヘッダー部分 %>
-      <h2 class="list-header">
-        買い物リスト (<%= @current_kind_name || "通常購入" %>)
-      </h2>
-
-      <%# 入力エリア %>
-      <div class="list-add-section">
-        <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
-      </div>
-
-      <%# アイテム一覧エリア %>
-      <div class="list-items-wrapper">
-        <% if @display_items.present? %>
-          <%= render @display_items %>
-        <% else %>
-          <p class="list-empty-message">表示するアイテムはありません</p>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-
-  <%# 5. AI提案エリア %>
+  <%# AI提案エリア %>
   <div class="ai-suggestion-container">
     <h3 class="ai-suggestion-header">
       <span class="mr-2">💡</span> AIからのアドバイス
@@ -79,9 +37,52 @@
       <% end %>
     </div>
   </div>
+
+  <%# カテゴリーパネル (フォルダ選択) %>
+  <div class="category-scroll-wrapper">
+    <% [
+      { kind: "regular",      name: "通常購入",    emoji: "🛒", items: @regular_items },
+      { kind: "subscription", name: "定期購入",    emoji: "🗓️", items: @subscription_items },
+      { kind: "spot",         name: "スポット購入", emoji: "📍", items: @spot_items }
+    ].each do |panel| %>
+      
+      <%= link_to items_path(kind: panel[:kind]), 
+          data: { turbo_frame: "item_list" }, 
+          class: "category-card #{ 'category-card-active' if @current_kind == panel[:kind] }" do %>
+        <div class="category-card-icon"><%= panel[:emoji] %></div>
+        <div class="category-card-title"><%= panel[:name] %></div>
+        <div class="category-card-count"><%= panel[:items].count %>点</div>
+      <% end %>
+
+    <% end %>
+  </div>
+
+  <%# メインリストエリア %>
+  <div class="list-container">
+    <%= turbo_frame_tag "item_list" do %>
+      <%# ヘッダー部分 %>
+      <h2 class="list-header">
+        買い物リスト (<%= @current_kind_name || "通常購入" %>)
+      </h2>
+
+      <%# 入力エリア %>
+      <div class="list-add-section">
+        <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
+      </div>
+
+      <%# アイテム一覧エリア %>
+      <div class="list-items-wrapper">
+        <% if @display_items.present? %>
+          <%= render @display_items %>
+        <% else %>
+          <p class="list-empty-message">表示するアイテムはありません</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </main>
 
-<%# 6. スマホ用フッターナビ %>
+<%# スマホ用フッターナビ %>
 <footer class="footer-nav">
   <a href="#" class="nav-item nav-item-active">
     <div class="text-xl">🏠</div>
@@ -99,5 +100,4 @@
     <div class="text-xl">⚙️</div>
     <div class="text-[10px] font-bold">設定</div>
   </a>
-  <%# グラフ、設定も同様に nav-item を適用 %>
 </footer>
