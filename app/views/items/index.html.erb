@@ -6,7 +6,8 @@
   <%# ユーザーウェルカムエリア %>
   <div class="welcome-container">
     <p class="welcome-text">
-      こんにちは、<span class="user-name"><%= current_user.nickname %></span>さん！
+      <p class="greeting">こんにちは</p>
+      <span class="user-name"><%= current_user.nickname %></span>さん！
     </p>
   </div>
 
@@ -16,17 +17,13 @@
 
   <%# AI提案エリア %>
   <div class="ai-suggestion-container">
-    <h3 class="ai-suggestion-header">
-      <span class="mr-2">💡</span> AIからのアドバイス
-    </h3>
-    
     <div class="ai-suggestion-list">
       <% if @ai_suggestions.present? %>
         <% @ai_suggestions.each do |item| %>
           <div class="ai-suggestion-card">
-            <span class="ai-suggestion-icon">⚠️</span>
+            <span class="ai-suggestion-icon">🗓️</span>
             <span class="ai-suggestion-text">
-              そろそろ「<strong class="highlight-text"><%= item.name %></strong>」がなくなる頃ではありませんか？
+              そろそろ「<strong class="highlight-text"><%= item.name %></strong>」がなくなる時期です。
             </span>
           </div>
         <% end %>
@@ -84,7 +81,7 @@
 
 <%# スマホ用フッターナビ %>
 <footer class="footer-nav">
-  <a href="#" class="nav-item nav-item-active">
+  <a href="<%= items_path%>" class="nav-item <%= current_page?(items_path) ? 'nav-item-active' : '' %>">
     <div class="text-xl">🏠</div>
     <div class="text-[10px] font-bold">ホーム</div>
   </a>
@@ -94,7 +91,7 @@
   </a>
   <a href="#" class="nav-item">
     <div class="text-xl">📊</div>
-    <div class="text-[10px] font-bold">分析</div>
+    <div class="text-[10px] font-bold">収支表</div>
   </a>
   <a href="#" class="nav-item">
     <div class="text-xl">⚙️</div>
