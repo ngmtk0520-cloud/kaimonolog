@@ -53,6 +53,10 @@
       <%# 入力エリア %>
       <div class="list-add-section">
         <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
+        <%# 一括リセットボタン %>
+        <div class=reset-button>
+          <%= button_to "☑️リセット", bulk_update_items_path(kind: @current_kind), method: :patch %>
+        </div>
       </div>
 
       <%# アイテム一覧エリア %>

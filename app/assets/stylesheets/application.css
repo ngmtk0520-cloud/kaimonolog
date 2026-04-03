@@ -183,6 +183,14 @@
   padding: 1rem;
   background-color: white;
   border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reset-button {
+  width: 100px;
+  margin-left: 1rem;
 }
 
 /* アイテム同士の区切り線 */
