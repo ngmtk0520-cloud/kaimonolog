@@ -43,7 +43,7 @@
   </div>
 
   <%# メインリストエリア %>
-  <div class="list-container">
+  <div id="form_<%= @current_kind || 'regular' %>" class="list-container">
     <%= turbo_frame_tag "item_list" do %>
       <%# ヘッダー部分 %>
       <h2 class="list-header">
@@ -51,7 +51,7 @@
       </h2>
 
       <%# 入力エリア %>
-    <div id="form_<%= @current_kind || 'regular' %>" class="list-add-section">
+      <div class="list-container">
         <%= render "items/form", item: Item.new, kind: @current_kind || "regular", category: @current_category %>
         <%# 一括リセットボタン %>
         <div class=reset-button>
