@@ -13,4 +13,4 @@ primary_region = "nrt"
   url_prefix = "/"
 
 [deploy]
-  release_command = "bin/rails db:migrate && bin/rails db:seed"
+  release_command = "sh -c 'bin/rails db:migrate && bin/rails db:seed'"
