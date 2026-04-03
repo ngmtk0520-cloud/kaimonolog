@@ -1,14 +1,8 @@
 <%# 1. アプリヘッダー %>
 <header class="app-header">
-  <div class="header-logo-area">
-    <span class="header-icon">🛒</span>
-    <h1 class="header-title">Kaimonolog</h1>
-  </div>
-  <div class="header-nav-icons">
-    <i class="fas fa-calendar"></i>
-    <i class="fas fa-chart-pie"></i>
-    <i class="fas fa-cog"></i>
-  </div>
+  <h1>
+    <%= link_to image_tag("kaimonolog.png", alt: "Kaimonolog", class: "header-logo"), root_path %>
+  </h1>
 </header>
 
 <main class="main-container">

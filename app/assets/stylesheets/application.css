@@ -1,38 +1,14 @@
 /* --- 1. アプリヘッダー --- */
 .app-header {
-  position: sticky;
-  top: 0;
+  height: 50px;
+  width: 100%;
   background-color: white;
-  border-bottom: 1px solid #e5e7eb;
-  z-index: 50;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.header-logo-area {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.header-icon {
-  font-size: 1.25rem;
-}
-
-.header-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #2563eb; /* メインカラーの青 */
-  margin: 0;
-}
-
-.header-nav-icons {
-  display: flex;
-  gap: 1rem;
-  color: #9ca3af; /* グレー */
+.header-logo {
+  height: 100%;
+  width: 150px;
+  object-fit: contain;
 }
 
 /* --- 2. ウェルカムエリア --- */
