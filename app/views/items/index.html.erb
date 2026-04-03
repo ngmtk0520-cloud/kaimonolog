@@ -36,9 +36,9 @@
           class: "category-card #{ 'category-card-active' if @current_kind == panel[:kind] }" do %>
         <div class="category-card-icon"><%= panel[:emoji] %></div>
         <div class="category-card-title"><%= panel[:name] %></div>
-        <div id="<%= panel[:kind] %>_count" class="category-card-count">
+        <div id="<%= panel[:kind] %>_count" class="category-card-count"></div>
       <% end %>
-
+      
     <% end %>
   </div>
 
