@@ -6,6 +6,7 @@ class CalendarsController < ApplicationController
   def index
     # アプリ内カレンダー用の「購入履歴」
     @calendar_events = PurchaseHistory.where(item_id: @group.items.pluck(:id))
+    @calendar_events = @calendar_events.order(bought_at: :desc)
   end
 
   private
