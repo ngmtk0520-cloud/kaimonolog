@@ -2,12 +2,33 @@
 <%= render "items/header" %>
 
 
-<div class="invite_token">グループ招待コード
-<%= current_user.group.invite_token %>
+<div class="settings-page p-6 pb-32">
+  <h2 class="text-2xl font-bold mb-8">設定</h2>
+
+  <%# グループセクション %>
+  <div class="bg-white rounded-lg shadow p-4 mb-6">
+    <p class="text-sm text-gray-500 mb-1">現在のグループ</p>
+    <p class="text-xl font-bold border-b pb-2 mb-4"><%= current_user.group.name %></p>
+    
+    <p class="text-sm text-gray-500 mb-1">招待コード</p>
+    <div class="flex items-center justify-between bg-gray-100 p-3 rounded">
+      <code class="text-blue-600 font-mono font-bold"><%= current_user.group.invite_token %></code>
+      <%# ここにコピーボタンのアイコンなどがあるとさらに神！ %>
+    </div>
+  </div>
+
+  <%# 危険な操作セクション %>
+  <div class="mt-12 space-y-6">
+    <%= link_to "グループを抜ける", leave_groups_path, 
+                data: { turbo_method: :patch, turbo_confirm: "グループを抜けると履歴が見られなくなります。本当によろしいですか？" }, 
+                class: "text-red-500 font-bold" %>
+    <div class="border-t pt-6">
+      <%= link_to "ログアウト", destroy_user_session_path, 
+                  data: { turbo_method: :delete, turbo_confirm: "ログアウトしてもよろしいですか？" }, 
+                  class: "text-gray-500 font-bold" %>
+    </div>
+  </div>
 </div>
-<%= link_to "グループを抜ける", leave_groups_path, 
-            data: { turbo_method: :patch, turbo_confirm: "グループを抜けると履歴が見られなくなります。本当によろしいですか？" }, 
-            class: "text-red-500 font-bold" %>
 
 <!--"フッターナビ" -->
 <%= render "items/footer" %>

@@ -6,6 +6,9 @@ class GroupsController < ApplicationController
     @group.invite_token = SecureRandom.hex(6) #12文字のランダムな鍵（招待コード）を自動生成
     if @group.save
       current_user.update(group_id: @group.id)
+      ["通常購入", "定期購入", "スポット購入"].each do |name|
+      @group.categories.create(name: name)
+      end
       redirect_to root_path, notice: "グループ「#{@group.name}」を作成しました！"
     else
       redirect_to root_path, alert: "グループの作成に失敗しました。"
