@@ -1,0 +1,28 @@
+<!-- "カレンダーのトップページ" -->
+<%= render "items/header" %>
+  
+<div class=edit_calendar>
+  <h2>購入履歴の編集</h2>
+  <%= form_with model: @purchase_history, url: purchase_history_path(@purchase_history), method: :patch do |f| %>
+    <div class="field">
+      <%= f.label :item_id, "商品" %><br>
+      <%= f.collection_select :item_id, @group.items, :id, :name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :bought_at, "購入日" %><br>
+      <%= f.date_select :bought_at %>
+    </div>
+
+    <div class="field">
+      <%= f.label :price, "価格" %><br>
+      <%= f.number_field :price %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "更新", model: purchase_history_path(@purchase_history) %>
+    </div>
+  <% end %>
+</div>
+<!--"フッターナビ" -->
+<%= render "items/footer" %>

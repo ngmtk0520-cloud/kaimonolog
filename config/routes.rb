@@ -14,9 +14,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :categories, only: [:index, :create, :update, :destroy] do
-  end
+  resources :categories, only: [:index, :create, :update, :destroy]
 
-  resources :calendars, only: [:index, :show, :edit] do
-  end
+  resources :calendars, only: [:index, :show, ]
+
+  resources :purchase_histories, only: [:edit, :update, :destroy]
 end

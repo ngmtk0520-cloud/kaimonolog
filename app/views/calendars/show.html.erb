@@ -6,14 +6,12 @@
     <h2><%= @calendar_events.first.bought_at.strftime("%Y年%m月%d日") %>
       購入履歴</h2>
       <% @calendar_events.each do |event| %>
-        <div class="item">
-          <p><%= event.item.name %></p>
-        </div>
-        <div class="price">
-          <p><%= number_with_delimiter(event.price) %>円</p>
-        </div>
-        <div class="edit">
-          <%= link_to "編集", edit_calendar_path(event), class: "edit" %>
+        <div class="date_form", style="display: flex;flex-direction: row; justify-content: space-between; items-center">
+          <div class="item-name"><%= event.item.name %></div>
+          <div class="price font-bold"><%= number_with_delimiter(event.price) %>円</div>
+          <div class="edit-link">
+            <%= link_to "編集", edit_purchase_history_path(event) %>
+          </div>
         </div>
       <% end %>
     <p>合計金額: <%= number_with_delimiter(@total_price) %>円</p>

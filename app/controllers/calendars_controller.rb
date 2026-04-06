@@ -15,10 +15,6 @@ class CalendarsController < ApplicationController
     @total_price = @calendar_events.sum(:price)
   end
 
-  def edit
-      @calendar_event = PurchaseHistory.find(params[:id])
-  end
-
   private
 
   def set_group
@@ -31,7 +27,4 @@ class CalendarsController < ApplicationController
     Date.beginning_of_week = :sunday
   end
 
-  def calendar_event_params
-    params.require(:calendar_event).permit(:item_id, :bought_at)
-  end
 end
