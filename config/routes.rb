@@ -17,6 +17,6 @@ Rails.application.routes.draw do
   resources :categories, only: [:index, :create, :update, :destroy] do
   end
 
-  resources :calendars, only: [:index, :show] do
+  resources :calendars, only: [:index, :show, :edit] do
   end
 end

@@ -15,6 +15,10 @@ class CalendarsController < ApplicationController
     @total_price = @calendar_events.sum(:price)
   end
 
+  def edit
+      @calendar_event = PurchaseHistory.find(params[:id])
+  end
+
   private
 
   def set_group
