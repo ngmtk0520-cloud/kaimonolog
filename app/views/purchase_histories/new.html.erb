@@ -1,13 +1,17 @@
 <!-- "カレンダーのトップページ" -->
 <%= render "items/header" %>
-
-
+  
 <div class=edit_calendar>
-  <h2>購入履歴の編集</h2>
-  <%= form_with model: @purchase_history, url: purchase_history_path(@purchase_history), method: :patch do |f| %>
+  <h2>購入履歴の新規登録</h2>
+  <%= form_with model: @purchase_history do |f| %>
     <div class="field">
-      <%= f.label :item_id, "商品" %><br>
-      <%= f.collection_select :item_id, @group.items, :id, :name %>
+      <%= f.label :category_id, "カテゴリー" %><br>
+      <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name), prompt: "選択してください" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :item_id, "商品名" %><br>
+      <%= text_field_tag :item_name, @purchase_history.item&.name %>
     </div>
 
     <div class="field">
@@ -21,7 +25,7 @@
     </div>
 
     <div class="actions">
-      <%= f.submit "更新", model: purchase_history_path(@purchase_history) %>
+      <%= f.submit "登録する" %>
     </div>
   <% end %>
 </div>

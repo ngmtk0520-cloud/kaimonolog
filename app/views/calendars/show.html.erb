@@ -1,6 +1,11 @@
 <!-- "カレンダーのトップページ" -->
 <%= render "items/header" %>
 
+<div class=new_date>
+  <h2>購入履歴の新規登録</h2>
+  <%= link_to "商品を追加", new_purchase_history_path %>
+</div>
+
 <div class=day_date>
   <% if @calendar_events.any? %>
     <h2><%= @calendar_events.first.bought_at.strftime("%Y年%m月%d日") %>

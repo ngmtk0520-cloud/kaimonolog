@@ -13,6 +13,9 @@ class CalendarsController < ApplicationController
     purchase_date = PurchaseHistory.where(item_id: @group.items.pluck(:id))
     @calendar_events = purchase_date.where(bought_at: params[:id].to_date.all_day)
     @total_price = @calendar_events.sum(:price)
+    if @calendar_events.empty?
+      redirect_to new_purchase_history_path(date: params[:id])
+    end
   end
 
   private
