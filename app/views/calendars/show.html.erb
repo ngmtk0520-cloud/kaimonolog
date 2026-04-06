@@ -12,6 +12,9 @@
           <div class="edit-link">
             <%= link_to "編集", edit_purchase_history_path(event) %>
           </div>
+          <div class="delete-link">
+            <%= link_to "削除", purchase_history_path(event), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %>
+          </div>
         </div>
       <% end %>
     <p>合計金額: <%= number_with_delimiter(@total_price) %>円</p>

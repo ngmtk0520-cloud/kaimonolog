@@ -1,9 +1,8 @@
 class PurchaseHistoriesController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :set_group, only: [:edit, :update]
-  before_action :set_purchase_history, only: [:edit, :update]
-
+  before_action :set_group, only: [:edit, :update, :destroy]
+  before_action :set_purchase_history, only: [:edit, :update, :destroy]
 
   def edit
   end
@@ -14,6 +13,11 @@ class PurchaseHistoriesController < ApplicationController
     else
       render :edit, alert: "購入履歴の更新に失敗しました"
     end
+  end
+
+  def destroy
+    @purchase_history.destroy
+    redirect_to calendar_path(id: @purchase_history.bought_at.to_date), notice: "購入履歴が削除されました"
   end
 
   private
