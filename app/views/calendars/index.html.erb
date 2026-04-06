@@ -4,9 +4,9 @@
 <div class=simple-calendar>
   <%= month_calendar(attribute: :bought_at,events: @calendar_events) do |date, events| %>
     <div class="calendar-date" style="font-weight: bold; color: <%= 'blue' if date.saturday? %><%= 'red' if date.sunday? %>">
-      <a href="#" class="purchase_history <%= 'active' if events.any? %>">
+      <%= link_to calendar_path(id: date), class: "purchase_history #{'active' if events.any?}" do %>
         <%= date.strftime("%e") %>
-      </a>
+      <% end%>
     </div>
   <% end %>
 </div>
