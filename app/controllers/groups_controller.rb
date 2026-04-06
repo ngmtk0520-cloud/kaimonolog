@@ -23,6 +23,14 @@ class GroupsController < ApplicationController
     end
   end
 
+  def leave
+    if current_user.update(group_id: nil)
+      redirect_to root_path, notice: "グループを抜けました"
+    else
+      redirect_to root_path, alert: "グループの退出に失敗しました。"
+    end
+  end
+
   private
 
   def group_params

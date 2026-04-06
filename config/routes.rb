@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :groups, only: [:create] do
     collection do
       post :join
+      patch :leave
     end
   end
 
@@ -21,4 +22,6 @@ Rails.application.routes.draw do
   resources :purchase_histories, only: [:new, :create, :edit, :update, :destroy]
 
   resources :total_expenses, only: [:index]
+
+  resource :settings, only: [:show]
 end
