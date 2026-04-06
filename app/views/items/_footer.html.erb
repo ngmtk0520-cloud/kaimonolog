@@ -7,9 +7,9 @@
     <div class="text-xl">📅</div>
     <div class="text-[10px] font-bold">買い物履歴</div>
   </a>
-  <a href="#" class="nav-item <%= current_page?(items_path) ? 'nav-item-active' : '' %>">
+  <a href="<%= total_expenses_path %>" class="nav-item <%= current_page?(total_expenses_path) ? 'nav-item-active' : '' %>">
     <div class="text-xl">📊</div>
-    <div class="text-[10px] font-bold">収支表</div>
+    <div class="text-[10px] font-bold">支出表</div>
   </a>
   <a href="#" class="nav-item <%= current_page?(items_path) ? 'nav-item-active' : '' %>">
     <div class="text-xl">⚙️</div>

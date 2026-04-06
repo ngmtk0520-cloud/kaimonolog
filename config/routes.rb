@@ -19,4 +19,6 @@ Rails.application.routes.draw do
   resources :calendars, only: [:index, :show, ]
 
   resources :purchase_histories, only: [:new, :create, :edit, :update, :destroy]
+
+  resources :total_expenses, only: [:index]
 end

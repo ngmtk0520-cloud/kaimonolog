@@ -34,8 +34,7 @@ class ItemsController < ApplicationController
 
     @item = @group.items.build
 
-    @expense_chart_data = @group.purchase_histories.where(bought_at: Time.current.all_month).joins(item: :category).group("categories.name").sum(:price)
-    puts "📊 グラフデータの中身: #{@expense_chart_data}"
+    
 
     # 💥 今日が予測日、または予測日を過ぎている「買い時」なアイテムを3件だけ抽出
     @ai_suggestions = @group.items.subscription.where("cycle_days > 0").select do |item|

@@ -290,3 +290,9 @@
   color: white;
   border-radius: 0.5rem;
 }
+
+/* 支出表 */
+
+.budget_book {
+  padding-bottom: 120px;
+}
