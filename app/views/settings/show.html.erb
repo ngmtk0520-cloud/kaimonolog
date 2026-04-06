@@ -1,6 +1,10 @@
 <!-- "カレンダーのトップページ" -->
 <%= render "items/header" %>
 
+
+<div class="invite_token">グループ招待コード
+<%= current_user.group.invite_token %>
+</div>
 <%= link_to "グループを抜ける", leave_groups_path, 
             data: { turbo_method: :patch, turbo_confirm: "グループを抜けると履歴が見られなくなります。本当によろしいですか？" }, 
             class: "text-red-500 font-bold" %>
