@@ -299,7 +299,6 @@
 }
 
 /* 新規登録 */
-/* ベースの背景色（お好みで） */
 body {
   background-color: #f8f9fa;
   margin: 0;
@@ -320,7 +319,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px; /* フォームの最大幅 */
+  max-width: 400px; 
 }
 
 h2 {
@@ -367,4 +366,79 @@ h2 {
 
 .actions input:hover {
   background-color: #939596;
+}
+
+
+/* ログインページ */
+
+.login-page {
+  display: flex;
+  flex-direction: column; /* 縦方向に配置 */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.login {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+
+.field input[type="email"],
+.field input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* ログインボタン */
+.actions input {
+  width: 100%;
+  padding: 12px;
+  background-color: #242629; /* 新規登録と変えて緑系にしても◎ */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.actions input:hover {
+  background-color: #939596;
+}
+
+/* チェックボックス部分の調整 */
+.remember-field {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* チェックボックスと文字の間隔 */
+  margin-bottom: 20px;
+}
+
+.remember-field input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+.remember-field label {
+  margin: 0;
+  font-weight: normal;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+/* 下部のリンク */
+.shared-links {
+  margin-top: 20px;
+  text-align: center;
 }
