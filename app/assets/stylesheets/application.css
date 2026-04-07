@@ -426,7 +426,7 @@ body {
 
 /* ---------------------------ここまで支出表のスタイル--------------------------- */
 
-/* ---------------------------ここから新規登録・ログインのスタイル----------------- */
+/* ---------------------------ここからユーザー新規登録・ログインのスタイル----------------- */
 /* 新規登録 */
 body {
   background-color: #f8f9fa;
@@ -565,7 +565,7 @@ h2 {
   font-size: 0.9em;
   cursor: pointer;
 }
-/* -----------------------------------ここまで新規登録・ログインのスタイル--------------------------- */
+/* -----------------------------------ここまでユーザー新規登録・ログインのスタイル--------------------------- */
 
 
 /* -----------------------------------ここからトップページ（グループ作成・所属グループ表示）のスタイル--------------------------- */
@@ -690,4 +690,77 @@ h2 {
 }
 /* -----------------------------------ここまでトップページ（グループ作成・所属グループ表示）のスタイル--------------------------- */
 
+/* -----------------------------------ここからリストの編集・追加のスタイル--------------------------- */
+/* 編集画面のカード */
+.edit_calendar {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  max-width: 450px;
+  margin: 20px auto;
+}
 
+.edit_calendar h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+/* 各入力項目のラベル */
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* セレクトボックス・数値入力のスタイル */
+.field select,
+.field input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* date_select（年月日）の横並び調整 */
+.field select[id*="_1i"], /* 年 */
+.field select[id*="_2i"], /* 月 */
+.field select[id*="_3i"] { /* 日 */
+  width: auto;
+  min-width: 80px;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+/* 更新ボタン */
+.actions {
+  margin-top: 30px;
+}
+
+.actions input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #080808;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.actions input[type="submit"]:hover {
+  background-color: #0056b3;
+}
