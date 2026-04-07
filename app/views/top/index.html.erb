@@ -1,44 +1,58 @@
 <header class="app-header">
   <h1>
-    <%= link_to image_tag("kaimonolog.png", alt: "Kaimonolog", class: "header-logo"), root_path %>
+    <%= link_to root_path do %>
+      <%= image_tag "kaimonolog.png", alt: "Kaimonolog", class: "header-logo" %>
+    <% end %>
   </h1>
 </header>
 
-<% if user_signed_in? %>
-  <p>こんにちは、<%= current_user.nickname %>さん！</p>
-  <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
-
-  <hr>
-
-  <% if current_user.group_id.nil? %>
-    <h2>グループに参加していません</h2>
-    <p>買い物リストを共有するために、グループを作成するか、招待コードを入力してください。</p>
-
-    <!-- グループ新規作成フォーム -->
-    <div>
-      <h3>新しくグループを作る</h3>
-      <%= form_with model: Group.new, url: groups_path do |f| %>
-        <%= f.label :name, "グループ名" %>
-        <%= f.text_field :name %>
-        <%= f.submit "グループを作成" %>
-      <% end %>
+<main class="main-container">
+  <% if user_signed_in? %>
+    <div class="user-info">
+      <p>こんにちは、<strong><%= current_user.nickname %></strong> さん！</p>
+      <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn-outline" %>
     </div>
 
-    <!-- 招待コード入力フォーム -->
-    <div>
-      <h3>招待コードでグループに参加する</h3>
-      <%= form_with url: join_groups_path, method: :post do |f| %>
-        <%= f.label :invite_token, "招待コード" %>
-        <%= f.text_field :invite_token %>
-        <%= f.submit "参加する" %>
-      <% end %>
-    </div>
+    <% if current_user.group_id.nil? %>
+      <div class="welcome-message">
+        <h2>グループに参加していません</h2>
+        <p>買い物リストを共有するために、新しく作るか招待コードを入力してください。</p>
+      </div>
+
+      <div class="group-actions">
+        <!-- グループ新規作成 -->
+        <div class="group-card">
+          <h3>新しくグループを作る</h3>
+          <%= form_with model: Group.new, url: groups_path do |f| %>
+            <%= f.text_field :name, placeholder: "グループ名を入力" %>
+            <%= f.submit "作成する", class: "btn-primary" %>
+          <% end %>
+        </div>
+
+        <!-- 招待コード参加 -->
+        <div class="group-card">
+          <h3>招待コードで参加</h3>
+          <%= form_with url: join_groups_path, method: :post do |f| %>
+            <%= f.text_field :invite_token, placeholder: "招待コードを入力" %>
+            <%= f.submit "参加する", class: "btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+
+    <% else %>
+      <div class="group-card" >
+        <h2>所属：<%= current_user.group.name %></h2>
+        <p><%= link_to "🛒 買い物リストを見る", items_path, class: "btn-primary" %></p>
+      </div>
+    <% end %>
+
   <% else %>
-    <h2>所属グループ: <%= current_user.group.name %></h2>
-    <p><%= link_to "🛒 買い物リストを見る", items_path, class: "btn" %></p>
+    <div class="group-card" >
+      <p>ご利用にはログインが必要です</p>
+      <div style="margin-top: 20px; display: flex; gap: 10px;">
+        <%= link_to "ログイン", new_user_session_path, class: "btn-primary" %>
+        <%= link_to "新規登録", new_user_registration_path, class: "btn-primary", style: "background-color: #28a745;" %>
+      </div>
+    </div>
   <% end %>
-
-<% else %>
-  <%= link_to "ログイン", new_user_session_path %> |
-  <%= link_to "新規登録", new_user_registration_path %>
-<% end %>
+</main>
