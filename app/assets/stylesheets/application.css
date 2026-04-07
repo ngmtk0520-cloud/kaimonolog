@@ -230,6 +230,7 @@
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
+  position: fixed;
 }
 
 .nav-item {
@@ -295,4 +296,75 @@
 
 .budget_book {
   padding-bottom: 120px;
+}
+
+/* 新規登録 */
+/* ベースの背景色（お好みで） */
+body {
+  background-color: #f8f9fa;
+  margin: 0;
+}
+
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* 登録フォームのカード */
+.signup {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* フォームの最大幅 */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+/* 各入力項目の間隔 */
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* 入力フォームのスタイル */
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; /* paddingを含めた幅計算 */
+}
+
+/* 登録ボタン */
+.actions input {
+  width: 100%;
+  padding: 12px;
+  background-color: #242629;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.actions input:hover {
+  background-color: #939596;
 }
