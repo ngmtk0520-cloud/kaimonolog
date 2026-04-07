@@ -1,7 +1,7 @@
 .field_with_errors {
   display: inline !important;
 }
-
+/* ------------------------ここからヘッダースタイル---------------------- */
 /* --- 1. アプリヘッダー --- */
 .app-header {
   max-width: 100%;
@@ -65,8 +65,10 @@ body {
   background-color: #f9fafb;
   min-height: 100vh;
 }
+/* ------------------------ここまでヘッダースタイル------------------------------------- */
 
-/* --- 5. AI提案エリア --- */
+/* ------------------------ここからアイテムトップページのスタイル------------------------- */
+/* --- AI提案エリア --- */
 .ai-suggestion-container {
   max-width: 100%;
   width: fit-content;
@@ -153,8 +155,6 @@ body {
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-
-
 .category-card-icon {
   font-size: 2rem;
   margin-bottom: 0.25rem;
@@ -232,7 +232,10 @@ body {
   color: #9ca3af;
   font-size: 0.875rem;
 }
-/* --- 4. フッターナビ --- */
+/* ------------------------ここまでアイテムトップページのスタイル--------------------- */
+
+/* ------------------------ここからフッターナビのスタイル---------------------------- */
+/* --- フッターナビ --- */
 .footer-nav {
   position: fixed;
   bottom: 0;
@@ -262,7 +265,10 @@ body {
 .nav-item-active {
   color: #3b82f6;
 }
+/* ------------------------ここまでフッターナビのスタイル------------------------- */
 
+
+/*v ----------------------- ここからカレンダー関連のスタイル ---------------------- */
 /* --- カレンダーエリア --- */
 .simple-calendar {
   width: 100%;
@@ -318,12 +324,109 @@ body {
   border-radius: 0.5rem;
 }
 
+/* カレンダー内データ詳細 */
+.day_date {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.day_date h2 {
+  font-size: 1.2rem;
+  color: #374151;
+  border-bottom: 2px solid #f3f4f6;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 履歴一件ずつのスタイル */
+.date_form {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f9fafb;
+  gap: 12px;
+}
+
+.item-name {
+  flex: 1; /* 名前を広げる */
+  font-weight: 500;
+  color: #111827;
+}
+
+.price {
+  font-weight: 700;
+  color: #0e0e0e; 
+  margin-right: 10px;
+}
+
+/* 編集・削除リンクのボタン化 */
+.edit-link a, .delete-link a {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.edit-link a {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.delete-link a {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+/* 合計金額エリア */
+.total-price-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 2px solid #f3f4f6;
+  text-align: right;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #374151;
+}
+
+.total-amount {
+  font-size: 1.4rem;
+  color: #111827;
+  margin-left: 8px;
+}
+
+/* 新規登録エリア */
+.new_date {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.btn-add {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #19191a;
+  color: rgb(250, 250, 250);
+  border-radius: 99px; /* 丸いボタン */
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+/* -------------------------- ここまでカレンダー関連のスタイル ------------------- */
+
+/* ---------------------------ここから支出表のスタイル--------------------------- */
 /* 支出表 */
 
 .budget_book {
   padding-bottom: 120px;
 }
 
+/* ---------------------------ここまで支出表のスタイル--------------------------- */
+
+/* ---------------------------ここから新規登録・ログインのスタイル----------------- */
 /* 新規登録 */
 body {
   background-color: #f8f9fa;
@@ -462,7 +565,10 @@ h2 {
   font-size: 0.9em;
   cursor: pointer;
 }
+/* -----------------------------------ここまで新規登録・ログインのスタイル--------------------------- */
 
+
+/* -----------------------------------ここからトップページ（グループ作成・所属グループ表示）のスタイル--------------------------- */
 /* 下部のリンク */
 .shared-links {
   margin-top: 20px;
@@ -582,3 +688,6 @@ h2 {
 .btn-outline:hover {
   background: #eee;
 }
+/* -----------------------------------ここまでトップページ（グループ作成・所属グループ表示）のスタイル--------------------------- */
+
+
