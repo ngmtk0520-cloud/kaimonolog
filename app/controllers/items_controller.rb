@@ -60,6 +60,25 @@ class ItemsController < ApplicationController
       @regular_items = @items.regular
       @subscription_items = @items.subscription
       @spot_items = @items.spot
+
+       # 1. 今どの種類（通常・定期・スポット）を操作しているか特定
+      @current_kind = @item.kind || "regular"
+      
+      # 2. Viewの <h2> や カテゴリー判定に使う変数を準備
+      case @current_kind
+      when "regular"
+        @display_items = @regular_items
+        @current_kind_name = "通常購入"
+        @current_category = @group.categories.find_by(name: "通常購入")
+      when "subscription"
+        @display_items = @subscription_items
+        @current_kind_name = "定期購入"
+        @current_category = @group.categories.find_by(name: "定期購入")
+      when "spot"
+        @display_items = @spot_items
+        @current_kind_name = "スポット購入"
+        @current_category = @group.categories.find_by(name: "スポット購入")
+      end
     
       # 💥 ここが重要！Viewで find_by している変数も必要です
       #（View側で直接 @group.categories.find_by... と書いているなら不要ですが、

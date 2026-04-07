@@ -1,4 +1,12 @@
-<!-- items の一覧の「先頭（prepend）」に、新しく作った _item.html.erb をリロードなしでガッチャンコします！ -->
+<%# 1. アイテムをリストの先頭に追加 %>
 <%= turbo_stream.prepend "#{@item.kind}_items", partial: "items/item", locals: { item: @item } %>
-<%= turbo_stream.replace "form_#{@item.kind}", partial: "items/form", locals: { item: Item.new, kind: @item.kind } %>
-<%= turbo_stream.update "#{@item.kind}_count", "#{@current_items_count}点" %>
+<%# 2. フォームとリセットボタンの「セット」 %>
+<%= turbo_stream.replace "form_area_#{@item.kind}" do %>
+  <div id="form_<%= @item.kind %>" class="list-add-section">
+    <%= render "items/form", item: Item.new, kind: @item.kind, category: @item.category %>
+    <div class="reset-button">
+      <%= button_to "☑️リセット", bulk_update_items_path(kind: @item.kind), method: :patch %>
+    </div>
+  </div>
+<%# カウントの更新 %>
+<% end %><%= turbo_stream.update "#{@item.kind}_count", "#{@current_items_count}点" %>

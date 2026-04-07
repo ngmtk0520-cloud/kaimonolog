@@ -24,5 +24,6 @@ module Kaimonolog
     config.time_zone = "Tokyo"
     # config.eager_load_paths << Rails.root.join("extras")
     config.i18n.default_locale = :ja # 日本語をデフォルトのロケールに設定
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
   end
 end

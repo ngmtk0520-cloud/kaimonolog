@@ -1,4 +1,6 @@
-
+.field_with_errors {
+  display: inline !important;
+}
 
 /* --- 1. アプリヘッダー --- */
 .app-header {
@@ -6,16 +8,19 @@
   width: fit-content;
   margin-inline: auto;
   height: 60px;
-  width: 100%;
+  width: 100vw;
   background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  top: 0;
+  
 }
 
 .header-logo {
   height: 100%;
-  width: 150px;
+  width: 100%;
   object-fit: contain;
   margin-top: 0.5rem;
   margin-left: 1rem;
@@ -23,8 +28,9 @@
 ;
 }
 
-/* --- 2. ウェルカムエリア --- */
+/* --- ログインユーザ名 --- */
 .welcome-container {
+  max-width: 100vw;
   margin-top: 0;
   margin-bottom: 2rem;
   padding: 0 0.2rem;
@@ -48,6 +54,11 @@
 .user-name {
   color: #111827; /* ニックネームを少し強調 */
   font-weight: 700;
+}
+
+body {
+  padding-top: 100px; /* ヘッダーの高さ分の余白を上部に追加 */
+  padding-bottom: 60px; /* フッターナビの高さ分の余白を下部に追加 */
 }
 
 .main-container {
