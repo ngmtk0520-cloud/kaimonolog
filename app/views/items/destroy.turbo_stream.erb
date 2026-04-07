@@ -1,1 +1,2 @@
 <%= turbo_stream.remove @item %>
+<%= turbo_stream.update "#{@item.kind}_count", "#{@current_items_count}点" %>

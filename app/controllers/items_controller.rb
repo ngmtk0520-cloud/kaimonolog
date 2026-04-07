@@ -113,11 +113,16 @@ class ItemsController < ApplicationController
 
   def destroy
     @item = @group.items.find(params[:id])
+    kind = @item.kind
     @item.destroy
+    @current_items_count = @group.items.where(kind: kind).count
 
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to items_path, notice: "削除しました"}
+      render turbo_stream: [
+        turbo_stream.remove(@item),
+        turbo_stream.update("#{kind}_count", "#{@current_items_count}点")
+      ]
     end
   end
 
