@@ -57,14 +57,15 @@ markdown
 
 | Column        | Type       | Options                        |
 | ------------- | ---------- | ------------------------------ |
-| purchased_at  | datetime   | null: false                    |
+| bought_at     | datetime   | null: false                    |
 | price         | integer    |                                |
 | item          | references | null: false, foreign_key: true |
-| user          | references | null: false, foreign_key: true |
-
+| category      | references | null: false, foreign_key: true |
+| group         | references | null: false, foreign_key: true |
 #### Association
 - belongs_to :item
-- belongs_to :user
+- belongs_to :category
+- belongs_to :group
 
 
 ### categories テーブル

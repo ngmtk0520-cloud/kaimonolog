@@ -19,4 +19,19 @@ class Item < ApplicationRecord
     avg = intervals.sum / intervals.size
     update(cycle_days: avg)
   end
+
+  def due_soon?
+    # 購入履歴がない場合は判定できないので false
+    return false if purchase_histories.empty? || cycle_days.nil?
+
+    # 最後に買った日を取得
+    last_bought_at = purchase_histories.order(bought_at: :desc).first.bought_at
+    
+    # 次回の予定日 = 最後に買った日 + サイクル（日）
+    expected_date = last_bought_at + cycle_days.days
+    
+    # 予定日が「今日から7日以内」かつ「未来（または今日）」なら true
+    # ※すでに切れているものも含める場合は expected_date <= Date.today + 7.days
+    expected_date <= Date.today + 7.days
+  end
 end

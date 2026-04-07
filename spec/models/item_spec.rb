@@ -46,4 +46,20 @@ RSpec.describe Item, type: :model do
     item = Item.new(name: "牛乳", group: group, kind: :regular, category: category)
     expect(item).to be_valid
   end
+
+  it "1週間以内に無くなりそうなアイテムを正しく抽出すること" do
+    # 1. 予測対象（30日サイクルで25日前に購入 → あと5日で切れる）
+    target_item = Item.create!(name: "対象品", group: group, kind: :subscription, category: category, cycle_days: 30)
+    target_item.purchase_histories.create!(group_id: group.id, bought_at: 25.days.ago)
+
+    # 2. 予測対象外（30日サイクルで5日前に購入 → まだ余裕あり）
+    safe_item = Item.create!(name: "対象外", group: group, kind: :subscription, category: category, cycle_days: 30)
+    safe_item.purchase_histories.create!(group_id: group.id, bought_at: 5.days.ago)
+
+    # ItemsController#index で使っている抽出メソッドを呼び出す（例: .due_soon）
+    results = Item.where(kind: :subscription).select { |i| i.due_soon? } # 実装に合わせて変更してください
+    
+    expect(results).to include(target_item)
+    expect(results).not_to include(safe_item)
+  end
 end
