@@ -270,6 +270,15 @@ body {
   margin: 0 auto;
 }
 
+.calendar-heading a {
+  text-decoration: none;
+  background-color: #f3f4f6; /* 薄いグレー */
+  padding: 5px 12px;
+  border-radius: 20px;
+  color: #374151;
+  font-size: 0.8rem;
+}
+
 /* tableタグに対して設定 */
 .simple-calendar table {
   width: 100%;
