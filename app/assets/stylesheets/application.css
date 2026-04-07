@@ -7,7 +7,7 @@
   max-width: 100%;
   width: fit-content;
   margin-inline: auto;
-  height: 60px;
+  height: 40px;
   width: 100vw;
   background-color: white;
   display: flex;
@@ -57,15 +57,11 @@
 }
 
 body {
-  padding-top: 100px; /* ヘッダーの高さ分の余白を上部に追加 */
-  padding-bottom: 60px; /* フッターナビの高さ分の余白を下部に追加 */
+  padding-top: 80px; /* ヘッダーの高さ分の余白を上部に追加 */
+  padding-bottom: 81px; /* フッターナビの高さ分の余白を下部に追加 */
 }
 
 .main-container {
-  max-width: 100%;
-  width: fit-content;
-  margin-inline: auto;
-  padding: 1rem;
   background-color: #f9fafb;
   min-height: 100vh;
 }
@@ -123,19 +119,28 @@ body {
 
 /* --- カテゴリーパネル (横並びフォルダ) --- */
 .category-scroll-wrapper {
-  display: flex !important;
-  flex-direction: row !important;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   overflow-x: auto;
+  flex-direction: row;
   gap: 0.75rem;
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
-  -webkit-overflow-scrolling: touch;
   margin-inline: auto;
 }
 
+.category-panel {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .category-card {
-  flex-shrink: 0 !important;
-  width: 110px;
+  flex-shrink: 0;
+  width: 100px;
   display: block;
   background: white;
   border: 1px solid #eee;
@@ -191,6 +196,7 @@ body {
 
 /* アイテム追加（フォーム）の背景 */
 .list-add-section {
+  width: fit-content;
   padding: 1rem;
   background-color: white;
   border-bottom: 1px solid #f3f4f6;

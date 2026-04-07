@@ -1,5 +1,5 @@
 <div id="item_<%= item.id %>" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd;">
-  <div style="display: flex; align-items: center;">
+  <div style="width: fit-content; display: flex; align-items: center;">
     
     <%# 💥 すでにリストにあるアイテムを「更新」するためのフォーム %>
     <%= form_with model: item, url: item_path(item), method: :patch, data: { turbo_stream: true } do |f| %>

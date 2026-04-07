@@ -30,17 +30,17 @@
       { kind: "subscription", name: "定期購入",    emoji: "🗓️", items: @subscription_items },
       { kind: "spot",         name: "スポット購入", emoji: "📍", items: @spot_items }
     ].each do |panel| %>
-      
-      <%= link_to items_path(kind: panel[:kind]), 
-          data: { turbo_frame: "item_list" }, 
-          class: "category-card #{ 'category-card-active' if @current_kind == panel[:kind] }" do %>
-        <div class="category-card-icon"><%= panel[:emoji] %></div>
-        <div class="category-card-title"><%= panel[:name] %></div>
-        <div id="<%= panel[:kind] %>_count" class="category-card-count">
-          <%= panel[:items].count %>点
-        </div>
-      <% end %>
-
+      <div class="category-panel">
+        <%= link_to items_path(kind: panel[:kind]), 
+            data: { turbo_frame: "item_list" }, 
+            class: "category-card #{ 'category-card-active' if @current_kind == panel[:kind] }" do %>
+          <div class="category-card-icon"><%= panel[:emoji] %></div>
+          <div class="category-card-title"><%= panel[:name] %></div>
+          <div id="<%= panel[:kind] %>_count" class="category-card-count">
+            <%= panel[:items].count %>点
+          </div>
+        <% end %>
+      </div>
     <% end %>
   </div>
 
