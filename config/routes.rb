@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
   root "top#index"
 
-  resources :groups, only: [:create] do
+  resources :groups, only: [:show, :create] do
+    resources :categories, only: [:create]
     collection do
       post :join
       patch :leave

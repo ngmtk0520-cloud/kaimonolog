@@ -23,21 +23,25 @@
     </div>
   </div>
 
+  <%# マイカテゴリー追加エリア %>
+  <div class="quick-category-form">
+    <h3>マイカテゴリーを追加</h3>
+      <%= form_with(model: Category.new, url: group_categories_path(@group)) do |f| %>      <%= f.text_field :name, placeholder: "例：お菓子、美容代" %>
+      <%= f.submit "追加" %>
+    <% end %>
+  </div>
+
   <%# カテゴリーパネル (フォルダ選択) %>
   <div class="category-scroll-wrapper">
-    <% [
-      { kind: "regular",      name: "通常購入",    emoji: "🛒", items: @regular_items },
-      { kind: "subscription", name: "定期購入",    emoji: "🗓️", items: @subscription_items },
-      { kind: "spot",         name: "スポット購入", emoji: "📍", items: @spot_items }
-    ].each do |panel| %>
+    <% @categories.each do |category| %>
       <div class="category-panel">
-        <%= link_to items_path(kind: panel[:kind]), 
+        <%= link_to items_path(category_id: category.id), 
             data: { turbo_frame: "item_list" }, 
-            class: "category-card #{ 'category-card-active' if @current_kind == panel[:kind] }" do %>
-          <div class="category-card-icon"><%= panel[:emoji] %></div>
-          <div class="category-card-title"><%= panel[:name] %></div>
-          <div id="<%= panel[:kind] %>_count" class="category-card-count">
-            <%= panel[:items].count %>点
+            class: "category-card #{ 'category-card-active' if params[:category_id].to_i == category.id }" do %>
+          <div class="category-card-icon">📂</div>
+          <div class="category-card-title"><%= category.name %></div>
+          <div class="category-card-count">
+            <%= category.items.count %>点
           </div>
         <% end %>
       </div>

@@ -3,6 +3,9 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
   def index
+    @group = current_user.group
+    # 最新のカテゴリーをすべて取得
+    @categories = @group.categories
     @items = @group.items.includes(:category).order(created_at: :desc)
 
     @regular_items      = @items.regular
