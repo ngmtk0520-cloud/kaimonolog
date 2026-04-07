@@ -4,95 +4,47 @@ class ItemsController < ApplicationController
   before_action :set_group
   def index
     @group = current_user.group
-    # 最新のカテゴリーをすべて取得
-    @categories = @group.categories
-    @items = @group.items.includes(:category).order(created_at: :desc)
+    @categories = @group.categories.order(:created_at)
+    @item = @group.items.build
+    # 1. 選択されたカテゴリーを取得（未選択なら最初のカテゴリー）
+    @current_category = if params[:category_id].present?
+                          @categories.find(params[:category_id])
+                        else
+                          @categories.first
+                        end
 
-    @regular_items      = @items.regular
-    @subscription_items = @items.subscription
-    @spot_items         = @items.spot
-
-    # 💥 パラメータに応じて表示するものを切り替える
-    @current_kind = params[:kind] || "regular"
-    
-    # 表示用の名前とカテゴリーをセット
-    case @current_kind
-    when "regular"
-      @display_items = @regular_items
-      @current_kind_name = "通常購入"
-      @current_category = @group.categories.find_by(name: "通常購入")
-    when "subscription"
-      @display_items = @subscription_items
-      @current_kind_name = "定期購入"
-      @current_category = @group.categories.find_by(name: "定期購入")
-    when "spot"
-      @display_items = @spot_items
-      @current_kind_name = "スポット購入"
-      @current_category = @group.categories.find_by(name: "スポット購入")
+    # 2. そのカテゴリーに紐づくアイテムだけを表示
+    if @current_category
+      @items = @current_category.items.order(created_at: :desc)
     else
-    # 💥 万が一変な値が来ても、通常購入を表示させる（保険）
-      @display_items = @regular_items
-      @current_kind_name = "通常購入"
+      @items = Item.none
     end
 
-    @item = @group.items.build
-
-    
-
     # 💥 今日が予測日、または予測日を過ぎている「買い時」なアイテムを3件だけ抽出
-    @ai_suggestions = @group.items.subscription.where("cycle_days > 0").select do |item|
-      last_bought = item.purchase_histories.order(:bought_at).last&.bought_at || 10.days.ago
-      next_date = (last_bought + item.cycle_days.days).to_date
-      
-      # 🚀 予測日が「3日後」までなら提案に載せる
-      next_date <= Date.today + 3.days
-    end.first(3)
+    set_ai_suggestions
+    
   end
 
   def create
     @item = @group.items.build(item_params)
+    @item.kind ||= :regular
+
     if @item.save
-      @current_items_count = @group.items.where(kind: @item.kind).count
+      # 保存成功後は、そのアイテムのカテゴリーフォルダを開くようにリダイレクト
+      @current_items_count = @item.category.items.count
       respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to items_path, notice: "アイテムを追加しました！" }
+        format.turbo_stream # これで create.turbo_stream.erb が動くようになる！
+        format.html { redirect_to items_path(category_id: @item.category_id), notice: "追加しました！" }
       end
     else
-      # 💥 失敗時：View(index.html.erb)が動くために必要な変数をすべて用意する
-      @items = @group.items.includes(:category).order(created_at: :desc)
-      @regular_items = @items.regular
-      @subscription_items = @items.subscription
-      @spot_items = @items.spot
-
-       # 1. 今どの種類（通常・定期・スポット）を操作しているか特定
-      @current_kind = @item.kind || "regular"
+      # 失敗時は index と同じ変数を揃える
+      @categories = @group.categories.order(:created_at)
+      @current_category = @categories.find_by(id: item_params[:category_id]) || @categories.first
+      @items = @current_category ? @current_category.items.order(created_at: :desc) : Item.none
       
-      # 2. Viewの <h2> や カテゴリー判定に使う変数を準備
-      case @current_kind
-      when "regular"
-        @display_items = @regular_items
-        @current_kind_name = "通常購入"
-        @current_category = @group.categories.find_by(name: "通常購入")
-      when "subscription"
-        @display_items = @subscription_items
-        @current_kind_name = "定期購入"
-        @current_category = @group.categories.find_by(name: "定期購入")
-      when "spot"
-        @display_items = @spot_items
-        @current_kind_name = "スポット購入"
-        @current_category = @group.categories.find_by(name: "スポット購入")
-      end
-    
-      # 💥 ここが重要！Viewで find_by している変数も必要です
-      #（View側で直接 @group.categories.find_by... と書いているなら不要ですが、
-      #  もしコントローラー側で定義している場合はここでも定義が必要です）
-    
-      @calendar_events = [] 
-      @expense_chart_data = {}
-
-      respond_to do |format|
-        format.html { render :index, status: :unprocessable_content }
-      end
+      set_ai_suggestions
+      # AI予測などの変数も index と同様に必要ならここに書く
+      render :index, status: :unprocessable_entity
     end
   end
 
@@ -116,16 +68,17 @@ class ItemsController < ApplicationController
 
   def destroy
     @item = @group.items.find(params[:id])
-    kind = @item.kind
+    category = @item.category
     @item.destroy
-    @current_items_count = @group.items.where(kind: kind).count
+    @current_items_count = @group.items.where(category: category).count
 
     respond_to do |format|
-      format.turbo_stream
-      render turbo_stream: [
-        turbo_stream.remove(@item),
-        turbo_stream.update("#{kind}_count", "#{@current_items_count}点")
-      ]
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.remove(@item),
+          turbo_stream.update("category_#{category.id}_count", "#{@current_items_count}点")
+        ]
+      end
     end
   end
 
@@ -147,5 +100,13 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :kind, :price)
+  end
+
+  def set_ai_suggestions
+    @ai_suggestions = @group.items.subscription.where("cycle_days > 0").select do |item|
+      last_bought = item.purchase_histories.order(:bought_at).last&.bought_at || 10.days.ago
+      next_date = (last_bought + item.cycle_days.days).to_date
+      next_date <= Date.today + 3.days
+    end.first(3)
   end
 end

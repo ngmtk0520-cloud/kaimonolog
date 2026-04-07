@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root "top#index"
 
   resources :groups, only: [:show, :create] do
+    resources :items
     resources :categories, only: [:create]
     collection do
       post :join

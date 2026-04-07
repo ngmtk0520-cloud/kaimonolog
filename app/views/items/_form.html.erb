@@ -1,9 +1,23 @@
-<%# kind（regular, subscription, spot）を受け取ってフォームを作ります %>
-<div id="form_<%= kind %>">
-  <%= form_with model: item, url: items_path, id: "form_#{kind}" do |f| %>
-    <%= f.hidden_field :kind, value: kind %>
-    <%= f.hidden_field :category_id, value: (local_assigns[:category] ? category&.id : nil) %>
-    <%= f.text_field :name, placeholder: "商品名を入力", required: true %>
-    <%= f.submit "追加" %>
+<%# IDを "item_form" に固定することで、Turbo Stream から見つけやすくします %>
+<div id="item_form" class="list-add-section">
+  <%= form_with model: item, url: items_path do |f| %>
+    
+    <%# 今開いているカテゴリーを自動で紐付ける %>
+    <%= f.hidden_field :category_id, value: category&.id %>
+    
+    <%# デフォルトの kind を regular に設定（必要なら後で subscription に変更） %>
+    <%= f.hidden_field :kind, value: item.kind || :regular %>
+
+    <div class="input-group">
+      <%= f.text_field :name, placeholder: "商品名を入力", required: true, class: "form-input" %>
+      
+      <%# AI予測のスイッチ（ここにあると便利！） %>
+      <div class="predict-check">
+        <%= f.check_box :kind, { class: "check-input" }, "subscription", "regular" %>
+        <span>予測</span>
+      </div>
+
+      <%= f.submit "追加", class: "submit-button" %>
+    </div>
   <% end %>
 </div>
