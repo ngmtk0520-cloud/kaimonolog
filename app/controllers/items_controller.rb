@@ -115,10 +115,9 @@ class ItemsController < ApplicationController
   end
 
   def set_ai_suggestions
-    @ai_suggestions = @group.items.subscription.where("cycle_days > 0").select do |item|
-      last_bought = item.purchase_histories.order(:bought_at).last&.bought_at || 10.days.ago
-      next_date = (last_bought + item.cycle_days.days).to_date
-      next_date <= Date.today + 3.days
-    end.first(3)
+    @ai_suggestions = @group.items.subscription
+                          .where("cycle_days > 0")
+                          .select(&:due_soon?)
+                          .first(3)
   end
 end

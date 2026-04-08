@@ -1,9 +1,8 @@
 class Item < ApplicationRecord
+  enum :kind, { regular: 0, subscription: 1, spot: 2 }
   belongs_to :group
   belongs_to :category, optional: false
   has_many :purchase_histories, dependent: :nullify
-  # 0: 都度(regular), 1: 定期(subscription), 2: スポット(spot)
-  enum kind: { regular: 0, subscription: 1, spot: 2 }
 
   validates :name, presence: true
   validates :price, numericality: { only_integer: true, allow_nil: true }
@@ -21,17 +20,16 @@ class Item < ApplicationRecord
   end
 
   def due_soon?
-    # 定期購入のみ予測する
-    return false unless subscription?
-    # 履歴が１件の場合は除外
-    return false if cycle_days.to_i <= 0
+    # 定期購入のみ予測する,履歴が１件の場合は除外
+    return false unless subscription? && cycle_days.to_i > 0
+
     # 最後に買った日を取得
     last_bought_at = purchase_histories.order(bought_at: :desc).first.bought_at
     return false if last_bought_at.nil?
     
     # 次回の予定日 = 最後に買った日 + サイクル（日）
-    # 次回の予定日を判定
+    # 次回の予定日「今日から4日以内」を判定
     expected_date = last_bought_at + cycle_days.days
-    expected_date <= Date.today + 7.days
+    expected_date <= Date.today + 4.days
   end
 end

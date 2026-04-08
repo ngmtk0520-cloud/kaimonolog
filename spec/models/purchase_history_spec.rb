@@ -39,4 +39,16 @@ RSpec.describe PurchaseHistory, type: :model do
     purchase_history = PurchaseHistory.new(category: category, item: item, group: group, bought_at: Time.current)
     expect(purchase_history).to be_valid
   end
+  it "購入履歴を作成したとき、紐づくItemの平均サイクルが更新されること" do
+    # 1. テスト用のアイテムを作成
+    item = Item.create!(name: "牛乳", group: group, kind: :subscription, category: category)
+    
+    # 2. 1回目の購入
+    item.purchase_histories.create!(group: group, category: category, bought_at: 14.days.ago)
+    
+    # 3. 2回目の購入
+    expect {
+      item.purchase_histories.create!(group: group, category: category, bought_at: 7.days.ago)
+    }.to change { item.reload.cycle_days }.from(0).to(7)
+  end
 end

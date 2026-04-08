@@ -1,65 +1,74 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
+  # --- 共通の準備（ここにあるものは全てのテストで使える） ---
   let(:group) { Group.create!(name: "テスト家族", invite_token: "abcdef123456") }
   let(:category) { Category.create!(name: "通常購入", group: group) }
+  # itemを一番上の階層に置くことで、下のdescribeの中からも見えるようにする
+  let(:item) { Item.create!(name: '牛乳', group: group, category: category, kind: :subscription, cycle_days: 10) }
 
-  it "名前、グループ、種類、カテゴリーがあれば有効であること" do
-    item = Item.new(name: "牛乳", group: group, kind: :regular, category: category)
-    expect(item).to be_valid
+  describe 'データ保存' do
+    it 'カテゴリー、商品名、グループが有効であれば保存できる' do
+      new_item = Item.new(name: '卵', group: group, category: category, kind: :regular)
+      expect(new_item).to be_valid
+    end
+
+    context 'データが保存されない時' do
+      it 'カテゴリーがなければ保存できない' do
+        new_item = Item.new(name: '牛乳', group: group, category: nil)
+        expect(new_item).to_not be_valid
+      end
+
+      it '商品名が入っていない場合は保存できない' do
+        new_item = Item.new(name: nil, group: group, category: category)
+        expect(new_item).to_not be_valid
+      end
+
+      it 'グループがなければ保存できない' do
+        new_item = Item.new(name: '牛乳', group: nil, category: category)
+        expect(new_item).to_not be_valid
+      end
+    end
   end
 
-  it "名前がなければ無効であること" do
-    item = Item.new(name: nil, group: group, kind: :regular, category: category)
-    item.valid?
-    expect(item.errors[:name]).to be_present
-  end
+  describe 'AI予測機能' do
+    # ここに書いても良いですが、一番上に let(:item) があるので不要です
 
-  it "kindが正しく設定できること（enumの確認）" do
-    item = Item.new(name: "牛乳", group: group, category: category)
+    context 'AI予測できる時' do
+      it 'kindが定期購入（subscription）として正しく認識されること' do
+        expect(item.subscription?).to be true
+      end
 
-    item.kind = :subscription
-    expect(item.subscription?).to be true
-    
-    item.kind = :spot
-    expect(item.spot?).to be true
-  end
+      it '購入履歴が2回以上あり、予定日4日以内ならtrueを返す' do
+        # 過去2回の購入でサイクルを学習させる
+        item.purchase_histories.create!(group: group, category: category, bought_at: 20.days.ago.to_date)
+        item.purchase_histories.create!(group: group, category: category, bought_at: 10.days.ago.to_date)
+        item.update_average_cycle
+        
+        # 直近の購入が6日前（あと4日で予定日）
+        item.purchase_histories.create!(group: group, category: category, bought_at: 6.days.ago.to_date)
+        item.reload
+        expect(item.due_soon?).to be true
+      end
+    end
 
-  it "購入履歴から平均サイクルを正しく計算すること" do
-    item = Item.create!(name: "牛乳", group: group, kind: :subscription, category: category)
-    
-    # 履歴を3つ作る（間隔は 7日 と 7日）
-    item.purchase_histories.create!(group_id: group.id, bought_at: 14.days.ago)
-    item.purchase_histories.create!(group_id: group.id, bought_at: 7.days.ago)
-    item.purchase_histories.create!(group_id: group.id, bought_at: Time.current)
+    context 'AI予測できない時' do
+      it 'kindが定期購入（subscription）でない場合は予測しない' do
+        item.update(kind: :regular)
+        item.purchase_histories.create!(group: group, category: category, bought_at: 6.days.ago.to_date)
+        expect(item.due_soon?).to be false
+      end
 
-    item.update_average_cycle
-    expect(item.cycle_days).to eq(7)
-  end
+      it '購入履歴が1回しかない場合は予測判定できない' do
+        item.purchase_histories.create!(group: group, category: category, bought_at: 1.day.ago.to_date)
+        expect(item.due_soon?).to be false
+      end
 
-  it "カテゴリーがなければ無効であること（optional: false の確認）" do
-    item = Item.new(name: "牛乳", group: group, kind: :regular, category: nil)
-    expect(item).to_not be_valid
-  end
-
-  it "正しいカテゴリーがあれば有効であること" do
-    item = Item.new(name: "牛乳", group: group, kind: :regular, category: category)
-    expect(item).to be_valid
-  end
-
-  it "1週間以内に無くなりそうなアイテムを正しく抽出すること" do
-    # 1. 予測対象（30日サイクルで25日前に購入 → あと5日で切れる）
-    target_item = Item.create!(name: "対象品", group: group, kind: :subscription, category: category, cycle_days: 30)
-    target_item.purchase_histories.create!(group_id: group.id, bought_at: 25.days.ago)
-
-    # 2. 予測対象外（30日サイクルで5日前に購入 → まだ余裕あり）
-    safe_item = Item.create!(name: "対象外", group: group, kind: :subscription, category: category, cycle_days: 30)
-    safe_item.purchase_histories.create!(group_id: group.id, bought_at: 5.days.ago)
-
-    # ItemsController#index で使っている抽出メソッドを呼び出す（例: .due_soon）
-    results = Item.where(kind: :subscription).select { |i| i.due_soon? } # 実装に合わせて変更してください
-    
-    expect(results).to include(target_item)
-    expect(results).not_to include(safe_item)
+      it '予定日までまだ5日以上ある場合はfalseを返す' do
+        item.purchase_histories.create!(group: group, category: category, bought_at: 5.days.ago.to_date)
+        item.reload
+        expect(item.due_soon?).to be false
+      end
+    end
   end
 end
