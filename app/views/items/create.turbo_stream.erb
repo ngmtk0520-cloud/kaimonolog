@@ -1,10 +1,10 @@
-<%# 1. 選択中のカテゴリーのリスト先頭にアイテムを追加 %>
+<%# 1. アイテムリストの先頭に追加 %>
 <%= turbo_stream.prepend "category_#{@item.category_id}_items", partial: "items/item", locals: { item: @item } %>
 
-<%# 2. フォームをリセット（新しい空のItemをセット） %>
-<%= turbo_stream.replace "item_form" do %>
-  <%= render "items/form", item: Item.new, category: @item.category %>
-<% end %>
-<%# 3. フォルダパネルの件数表示を更新 %>
+<%# 2. フォームエリアを丸ごと置換（IDごと入れ替えるので崩れません） %>
+<%= turbo_stream.replace "item_form", partial: "items/form", locals: { item: @group.items.build, category: @item.category } %>
+
+<%# 3. 件数表示の更新 %>
 <%= turbo_stream.update "category_#{@item.category_id}_count", "#{@current_items_count}点" %>
 
+<%= turbo_stream.update "list_title", "買い物リスト (#{@item.category.name})" %>

@@ -13,6 +13,7 @@ class ItemsController < ApplicationController
                           @categories.first
                         end
 
+    @current_category_name = @current_category&.name
     # 2. そのカテゴリーに紐づくアイテムだけを表示
     if @current_category
       @items = @current_category.items.order(created_at: :desc)
