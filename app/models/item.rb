@@ -1,12 +1,12 @@
 class Item < ApplicationRecord
   belongs_to :group
   belongs_to :category, optional: false
-  has_many :purchase_histories, dependent: :destroy
+  has_many :purchase_histories, dependent: :nullify
   # 0: 都度(regular), 1: 定期(subscription), 2: スポット(spot)
   enum kind: { regular: 0, subscription: 1, spot: 2 }
 
   validates :name, presence: true
-
+  validates :price, numericality: { only_integer: true, allow_nil: true }
   #平均購入サイクルを計算する
   def update_average_cycle
     return if purchase_histories.count < 2

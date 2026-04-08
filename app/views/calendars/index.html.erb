@@ -1,8 +1,13 @@
 <!-- "カレンダーのトップページ" -->
 <%= render "items/header" %>
 
+<p>デバッグ: 取得件数 <%= @calendar_events.count %>件</p>
+<% @calendar_events.each do |event| %>
+  <p><%= event.item_name %> / <%= event.bought_at %></p>
+<% end %>
+
 <div class=simple-calendar>
-  <%= month_calendar(attribute: :bought_at,events: @calendar_events) do |date, events| %>
+  <%= month_calendar(attribute: :start_time, events: @calendar_events) do |date, events| %>
     <div class="calendar-date" style="font-weight: bold; color: <%= 'blue' if date.saturday? %><%= 'red' if date.sunday? %>">
       <%= link_to calendar_path(id: date), class: "purchase_history #{'active' if events.any?}" do %>
         <%= date.strftime("%e") %>

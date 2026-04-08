@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_01_060353) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_08_054141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,22 +37,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_01_060353) do
     t.datetime "last_bought_at"
     t.integer "cycle_days", default: 0, null: false
     t.bigint "group_id", null: false
+    t.integer "price"
+    t.bigint "category_id", null: false
+    t.string "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "category_id"
-    t.integer "kind", default: 0, null: false
     t.index ["category_id"], name: "index_items_on_category_id"
     t.index ["group_id"], name: "index_items_on_group_id"
   end
 
   create_table "purchase_histories", force: :cascade do |t|
-    t.bigint "item_id", null: false
+    t.bigint "item_id"
     t.bigint "group_id", null: false
     t.bigint "category_id", null: false
     t.datetime "bought_at", null: false
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "item_name"
     t.index ["category_id"], name: "index_purchase_histories_on_category_id"
     t.index ["group_id"], name: "index_purchase_histories_on_group_id"
     t.index ["item_id"], name: "index_purchase_histories_on_item_id"

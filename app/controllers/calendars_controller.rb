@@ -5,16 +5,21 @@ class CalendarsController < ApplicationController
 
   def index
     # アプリ内カレンダー用の「購入履歴」
-    @calendar_events = PurchaseHistory.where(item_id: @group.items.pluck(:id))
-    @calendar_events = @calendar_events.order(bought_at: :desc)
+      @calendar_events = PurchaseHistory.where(group_id: @group.id).order(bought_at: :desc)
   end
 
   def show
-    purchase_date = PurchaseHistory.where(item_id: @group.items.pluck(:id))
-    @calendar_events = purchase_date.where(bought_at: params[:id].to_date.all_day)
+    @selected_date = params[:id].to_date
+    # その日の履歴を、アイテム名も含めて効率よく取得（includes）
+    @calendar_events = PurchaseHistory.where(group_id: @group.id)
+                                      .where(bought_at: @selected_date.all_day)
+                                      .includes(:item)
+    
     @total_price = @calendar_events.sum(:price)
+
+    # 履歴がない時だけ新規登録へ飛ばす
     if @calendar_events.empty?
-      redirect_to new_purchase_history_path(date: params[:id])
+      redirect_to new_purchase_history_path(date: @selected_date)
     end
   end
 

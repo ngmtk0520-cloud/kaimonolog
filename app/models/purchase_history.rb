@@ -3,6 +3,10 @@ class PurchaseHistory < ApplicationRecord
   belongs_to :group
   belongs_to :category
 
+  def start_time
+    bought_at
+  end
+
   validates :bought_at, presence: true
   validates :price, numericality: { only_integer: true, allow_nil: true }
 

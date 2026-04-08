@@ -73,7 +73,7 @@
           <%= f.submit "追加", class: "submit-button" %>
         <% end %>
 
-        <%# フォーム送信と干渉しないように外に出す %>
+        <%# 一括りセットボタン %>
         <div class="reset-button-area">
           <%= button_to "☑️一括リセット", bulk_update_items_path(category_id: @current_category&.id), method: :patch, class: "reset-btn" %>
         </div>

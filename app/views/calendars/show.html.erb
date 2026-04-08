@@ -1,14 +1,14 @@
-<!-- "カレンダーのトップページ" -->
+<!-- "カレンダー詳細ページ" -->
 <%= render "items/header" %>
 
 <div class=new_date>
-  <h2>購入履歴</h2>
+  <h2><%= Date.parse(params[:id]).strftime("%Y年%m月%d日") %> の履歴</h2>
 </div>
 
 <main class="main-container">
   <%# 新規登録ボタン %>
   <div class="new_date">
-    <%= link_to "+ 商品を追加", new_purchase_history_path, class: "btn-add" %>
+    <%= link_to "+ 商品を追加", new_purchase_history_path(date: params[:id]), class: "btn-add" %>
   </div>
 
   <div class="day_date">
@@ -20,7 +20,7 @@
       <div class="history-list">
         <% @calendar_events.each do |event| %>
           <div class="date_form">
-            <div class="item-name"><%= event.item.name %></div>
+            <div class="item-name"><%= event.item_name %></div>
             <div class="price"><%= number_with_delimiter(event.price) %>円</div>
             
             <div class="edit-link">

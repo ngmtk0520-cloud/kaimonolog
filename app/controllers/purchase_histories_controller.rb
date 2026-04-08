@@ -26,23 +26,35 @@ class PurchaseHistoriesController < ApplicationController
   end
 
   def create
-    item = @group.items.find_or_create_by(name: params[:item_name], category_id: params[:category_id])
-    @purchase_history = PurchaseHistory.new(purchase_history_params)
-    @purchase_history.item_id = item.id
+    # 1. 入力された名前とカテゴリーIDでアイテムを特定。なければ新しく作る。
+    # ※@group.items 経由にすることで、他人のグループと混ざらないようにします。
+    item = @group.items.find_or_create_by(
+      name: params[:item_name],
+      category_id: params[:category_id]
+    )
+
+    # 2. そのアイテムに紐づく「履歴」のインスタンスを作成
+    @purchase_history = item.purchase_histories.build(purchase_history_params)
+    @purchase_history.item_name = item.name
+    
+    # 3. 履歴側にもデータを補完（分析やカレンダー表示をスムーズにするため）
+    @purchase_history.category_id = item.category_id
     @purchase_history.group_id = @group.id
 
     if @purchase_history.save
-      redirect_to calendar_path(id: @purchase_history.bought_at.to_date), notice: "購入履歴が作成されました"
+      # 保存できたらカレンダー画面へ
+      redirect_to calendars_path, notice: "記録しました！"
     else
+      # 失敗したら入力画面に戻す
       @categories = @group.categories
-      render :new, alert: "購入履歴の作成に失敗しました"
+      render :new, status: :unprocessable_entity
     end
   end
-
+  
   private
 
   def purchase_history_params
-    params.require(:purchase_history).permit(:item_id, :bought_at, :price)
+    params.require(:purchase_history).permit(:bought_at, :price)
   end
 
   def set_purchase_history

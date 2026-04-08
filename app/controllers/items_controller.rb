@@ -52,12 +52,17 @@ class ItemsController < ApplicationController
     @item = @group.items.find(params[:id])
     previously_checked = @item.is_checked
 
-    if @item.update(item_params.except(:price))
+    if @item.update(item_params)
       # 💥 チェックを入れた瞬間（false -> true）の時だけ実行
-      if !previously_checked && @item.is_checked
-        @item.purchase_histories.create(group_id: @group.id, bought_at: Time.current, price: item_params[:price])
-        # 💥 ここで最新の平均サイクルを計算！
-        @item.update_average_cycle
+      if !previously_checked && @item.is_checked 
+        PurchaseHistory.create!(
+          item_id: @item.id,
+          item_name: @item.name,
+          category_id: @item.category_id,
+          group_id: @item.group_id,
+          price: @item.price,
+          bought_at: Time.current  # 今の日時で履歴を作る
+        )
       end
       respond_to do |format|
         format.turbo_stream
@@ -84,7 +89,7 @@ class ItemsController < ApplicationController
 
   def bulk_update
     # 💥 params[:kind] を使って、その種類のチェックだけを外す
-    items_to_reset = @group.items.where(kind: params[:kind], is_checked: true)
+    items_to_reset = @group.items.where(category_id: params[:category_id], is_checked: true)
     items_to_reset.update_all(is_checked: false)
 
     redirect_to items_path, notice: "チェックをリセットしました"
