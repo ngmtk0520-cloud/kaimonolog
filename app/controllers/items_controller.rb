@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
 
   def create
     @item = @group.items.build(item_params)
-    @item.kind ||= :regular
+    
 
     if @item.save
       # 保存成功後は、そのアイテムのカテゴリーフォルダを開くようにリダイレクト
@@ -111,11 +111,11 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :kind, :price)
+    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :price)
   end
 
   def set_ai_suggestions
-    @ai_suggestions = @group.items.subscription
+    @ai_suggestions = @group.items.where(is_subscription: true)
                           .joins(:category)
                           .where(categories: { name: "定期購入" })
                           .select(&:due_soon?)
