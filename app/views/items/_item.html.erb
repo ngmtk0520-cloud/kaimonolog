@@ -6,7 +6,7 @@
       <%# 💥 チェックした瞬間に送信！ %>
       <%= f.check_box :is_checked, onchange: "this.form.requestSubmit()" %>
       <%# 💥 金額入力欄を追加。未入力でもOKにする %>
-      <%= f.number_field :price, placeholder: "￥", style: "width: 60px; font-size: 10px;" %>
+      <%= f.number_field :price, value: item.price, id: "price_input_#{item.id}", placeholder: "￥", style: "width: 60px; font-size: 10px;" %>
     <% end %>
 
     <%# 金額が保存されていたら、(¥500) のように表示する %>

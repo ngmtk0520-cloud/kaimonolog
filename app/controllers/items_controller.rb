@@ -64,6 +64,7 @@ class ItemsController < ApplicationController
           price: @item.price,
           bought_at: Time.current  # 今の日時で履歴を作る
         )
+        @item.update(price: nil) 
       end
       respond_to do |format|
         format.turbo_stream
@@ -89,11 +90,16 @@ class ItemsController < ApplicationController
   end
 
   def bulk_update
-    # 💥 params[:kind] を使って、その種類のチェックだけを外す
-    items_to_reset = @group.items.where(category_id: params[:category_id], is_checked: true)
-    items_to_reset.update_all(is_checked: false)
+    target_category_id = params[:category_id]
 
-    redirect_to items_path, notice: "チェックをリセットしました"
+    if target_category_id.present?
+      items_to_reset = @group.items.where(category_id: target_category_id, is_checked: true)
+    else
+      items_to_reset = @group.items.where(is_checked: true)
+    end
+
+    items_to_reset.update_all(is_checked: false)
+    redirect_to items_path(category_id: target_category_id), notice: "チェックをリセットしました"
   end
 
   private
