@@ -1,11 +1,13 @@
 class Item < ApplicationRecord
-  enum :kind, { regular: 0, subscription: 1, spot: 2 }
   belongs_to :group
   belongs_to :category, optional: false
   has_many :purchase_histories, dependent: :nullify
 
   validates :name, presence: true
   validates :price, numericality: { only_integer: true, allow_nil: true }
+  
+  before_save :set_subscription_flag
+
   #平均購入サイクルを計算する
   def update_average_cycle
     return if purchase_histories.count < 2
@@ -21,7 +23,7 @@ class Item < ApplicationRecord
 
   def due_soon?
     # 定期購入のみ予測する,履歴が１件の場合は除外
-    return false unless subscription? && cycle_days.to_i > 0
+    return false unless is_subscription? && cycle_days.to_i > 0
 
     # 最後に買った日を取得
     last_bought_at = purchase_histories.order(bought_at: :desc).first.bought_at
@@ -31,5 +33,11 @@ class Item < ApplicationRecord
     # 次回の予定日「今日から4日以内」を判定
     expected_date = last_bought_at + cycle_days.days
     expected_date <= Date.today + 4.days
+  end
+
+  private
+
+  def set_subscription_flag
+    self.is_subscription = (category&.name == "定期購入")
   end
 end

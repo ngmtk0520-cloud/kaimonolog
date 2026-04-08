@@ -116,7 +116,8 @@ class ItemsController < ApplicationController
 
   def set_ai_suggestions
     @ai_suggestions = @group.items.subscription
-                          .where("cycle_days > 0")
+                          .joins(:category)
+                          .where(categories: { name: "定期購入" })
                           .select(&:due_soon?)
                           .first(3)
   end
