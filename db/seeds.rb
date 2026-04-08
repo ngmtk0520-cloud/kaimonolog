@@ -1,5 +1,9 @@
-group = Group.find_or_create_by!(name: "長松家")
-
-group.categories.find_or_create_by!(name: "通常購入")
-group.categories.find_or_create_by!(name: "定期購入")
-group.categories.find_or_create_by!(name: "スポット購入")
+group = Group.find_or_initialize_by(name: "長松家")
+if group.new_record?
+  # 重複しないトークンを生成するまで繰り返す（より安全な書き方）
+  group.invite_token = loop do
+    token = SecureRandom.hex(6)
+    break token unless Group.exists?(invite_token: token)
+  end
+  group.save!
+end
