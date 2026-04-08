@@ -21,17 +21,17 @@ class Item < ApplicationRecord
   end
 
   def due_soon?
-    # 購入履歴がない場合は判定できないので false
-    return false if purchase_histories.empty? || cycle_days.nil?
-
+    # 定期購入のみ予測する
+    return false unless subscription?
+    # 履歴が１件の場合は除外
+    return false if cycle_days.to_i <= 0
     # 最後に買った日を取得
     last_bought_at = purchase_histories.order(bought_at: :desc).first.bought_at
+    return false if last_bought_at.nil?
     
     # 次回の予定日 = 最後に買った日 + サイクル（日）
+    # 次回の予定日を判定
     expected_date = last_bought_at + cycle_days.days
-    
-    # 予定日が「今日から7日以内」かつ「未来（または今日）」なら true
-    # ※すでに切れているものも含める場合は expected_date <= Date.today + 7.days
     expected_date <= Date.today + 7.days
   end
 end
