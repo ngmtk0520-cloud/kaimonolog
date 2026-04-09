@@ -17,7 +17,7 @@
     <div class="flex justify-between items-center mb-1">
       <p class="text-sm text-gray-500">現在のグループ</p>
       <%# グループ名編集へのリンク（実装済みのパスに合わせて調整してください） %>
-      <%#= link_to "名前変更", edit_group_path(current_user.group), class: "text-xs text-blue-500" %>
+      <%= link_to "名前変更", edit_group_path(current_user.group), class: "text-xs text-blue-500" %>
     </div>
     <p class="text-xl font-bold border-b pb-2 mb-4"><%= current_user.group.name %></p>
     

@@ -1,0 +1,24 @@
+<%= render "items/header" %>
+
+<main class="main-container">
+  <div class="welcome-message">
+    <h2>グループ名の編集</h2>
+    <p>買い物リストの表示名を変更できます。</p>
+  </div>
+
+  <div class="group-card">
+    <%= form_with model: @group do |f| %>
+      <div class="field" style="margin-bottom: 20px;">
+        <%= f.label :name, "新しいグループ名", style: "display: block; margin-bottom: 10px; font-weight: bold;" %>
+        <%= f.text_field :name, placeholder: "グループ名を入力", autofocus: true %>
+      </div>
+      <%= f.submit "更新する", class: "btn-primary" %>
+    <% end %>
+    
+    <div style="margin-top: 20px;">
+      <%= link_to "← 設定に戻る", settings_path, style: "color: #888; font-size: 0.9rem;" %>
+    </div>
+  </div>
+</main>
+
+<%= render "items/footer" %>

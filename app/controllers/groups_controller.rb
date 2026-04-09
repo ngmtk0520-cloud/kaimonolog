@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_group, only: [:edit, :update]
 
   def create
     @group = Group.new(group_params)
@@ -31,7 +32,25 @@ class GroupsController < ApplicationController
     end
   end
 
+    def edit
+      # 設定画面から飛んでくる編集画面
+    end
+
+    def update
+      if @group.update(group_params)
+        redirect_to settings_path, notice: "グループ名を更新しました"
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+
+  
+
   private
+
+  def set_group
+    @group = current_user.group
+  end
 
   def group_params
     params.require(:group).permit(:name)
