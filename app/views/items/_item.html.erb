@@ -3,18 +3,25 @@
     
     <%# 💥 すでにリストにあるアイテムを「更新」するためのフォーム %>
     <%= form_with model: item, url: item_path(item), method: :patch, data: { turbo_stream: true } do |f| %>
-      <%# 💥 チェックした瞬間に送信！ %>
+      <%# チェックした瞬間に送信 %>
       <%= f.check_box :is_checked, onchange: "this.form.requestSubmit()" %>
-      <%# 💥 金額入力欄を追加。未入力でもOKにする %>
+      <%# 金額入力欄 %>
       <%= f.number_field :price, value: item.price, id: "price_input_#{item.id}", placeholder: "￥", style: "width: 60px; font-size: 10px;" %>
+      <span style="font-size: 10px;"></span>
+      <%# 個数入力 %>
+      <%= f.number_field :quantity, value: item.quantity, min: 1, id: "quantity_input_#{item.id}", style: "width: 40px; font-size: 10px;" %>
     <% end %>
 
-    <%# 金額が保存されていたら、(¥500) のように表示する %>
+    <%# 金額が保存されていたら、(¥500 × 2) のように表示する %>
     <span style="margin-left: 10px; <%= 'text-decoration: line-through;' if item.is_checked %>">
       <%= item.name %>
       <% if item.is_checked && (last_history = item.purchase_histories.last) %>
         <% if last_history.price.present? %>
-          <small style="color: green;">(¥<%= last_history.price %>)</small>
+          <small style="color: green;">
+            (¥<%= last_history.price %>
+            <%# 個数が2個以上の時だけ ×2 と表示するとスッキリします %>
+            <%= " × #{last_history.quantity}" if last_history.quantity && last_history.quantity > 1 %>)
+          </small>
         <% end %>
       <% end %>
     </span>

@@ -111,7 +111,7 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :price)
+    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :price, :quantity)
   end
 
   def set_ai_suggestions

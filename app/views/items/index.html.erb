@@ -59,11 +59,6 @@
 
       <%# 入力エリア %>
       <%= render "items/form", item: @item, category: @current_category %>
-
-        <%# 一括りセットボタン %>
-      <div id="reset-button-area">
-        <%= button_to "☑️一括リセット", bulk_update_items_path(category_id: @current_category&.id), method: :patch, class: "reset-btn" %>
-      </div>
           
       <%# アイテム一覧エリア %>
       <div id="category_<%= @current_category&.id %>_items" class="list-items-wrapper">
