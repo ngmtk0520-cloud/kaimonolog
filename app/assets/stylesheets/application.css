@@ -70,25 +70,27 @@ body {
 /* ------------------------ここからアイテムトップページのスタイル------------------------- */
 /* --- AI提案エリア --- */
 .ai-suggestion-container {
-  max-width: 400px; /* 他のカードと幅を統一 */
+  max-width: 400px;
   width: 90%;
-  margin: 1.5rem auto;
+  margin: 2rem auto; /* 潜り込み防止のため上下余白をしっかり確保 */
   padding: 1.5rem;
-  background-color: #f1f3f5; /* 設定画面の招待コード枠と同じ薄いグレー */
-  border-radius: 8px; /* ログイン画面の丸みと統一 */
+  background-color: #f1f3f5;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 2.5px solid #070707; 
-  box-sizing: border-box;
+  box-sizing: border-box; /* 💥ズレ防止の要 */
+  clear: both; /* 💥前の要素との干渉を強制リセット */
 }
 
 /* 提案タイトルやメッセージ */
 .ai-empty-message {
+  width: 100%; /* 💥fit-contentから100%に変更して中央寄せを確実に */
   text-align: center;
   padding-bottom: 1rem;
   font-size: 0.8rem;
-  color: #242629; /* ログインボタンと同じ黒 */
+  color: #242629;
   font-weight: bold;
   letter-spacing: 0.5px;
 }
@@ -98,34 +100,43 @@ body {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff; /* 中のカードは白にして浮き立たせる */
+  align-items: center; /* 💥2行になっても中央を維持 */
+  background-color: #ffffff;
   padding: 12px 16px;
   border-radius: 4px;
   border: 1px solid #eee;
   box-shadow: 0 2px 4px rgba(0,0,0,0.03);
   margin-bottom: 8px;
+  box-sizing: border-box; /* 💥カード内のズレも防止 */
 }
 
 /* 左側のテキストエリア */
 .ai-suggestion-text {
+  flex: 1; /* 💥可能な限り広がる */
+  min-width: 0; /* 💥文字溢れ・突き抜け防止の魔法 */
   font-size: 0.85rem;
-  color: #242629;
+  color: #716f6e;
   font-weight: bold;
+  white-space: normal; /* 💥長い名前は自動で改行させる */
+  word-wrap: break-word;
+  padding-right: 8px; /* 右側との余白 */
 }
 
-/* 右側の強調（オレンジを抑え、少し深みのあるアクセントに） */
+/* 右側の強調（あと○日） */
 .highlight-text {
-  font-size: 0.75rem;
-  color: #939596; /* 落ち着いたグレーに変更（またはお好みで深めのネイビーなど） */
-  margin-left: 8px;
+  font-size: 1rem;
+  color: #040404;
+  margin-left: auto; /* 💥左側を押し広げて右端に固定 */
+  white-space: nowrap; /* 💥ここは改行させない */
+  flex-shrink: 0; /* 💥商品名に押されても縮まない */
 }
 
 /* アイコン */
 .ai-suggestion-icon {
   font-size: 1rem;
   margin-right: 8px;
-  filter: grayscale(1); /* 絵文字もモノトーンに馴染ませる */
+  filter: grayscale(1);
+  flex-shrink: 0; /* 💥アイコンが潰れるのを防止 */
 }
 
 /* カテゴリー追加エリア独自の設定 */

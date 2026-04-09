@@ -9,8 +9,11 @@
   <div class="monthly_expense_trend">
     <h2 class="monthly_expense">月別支出推移</h2>
     <%# 月々の支出推移縦グラフの表示 %>
-    <%= column_chart @monthly_chart_data, stacked: true, 
-                 colors: ["#007BFF"], prefix: "¥", thousands: "," %>  
+    <%= column_chart @monthly_chart_data.transform_keys { |date| date.strftime("%Y-%m") }, 
+                  stacked: true, 
+                  colors: ["#007BFF"], 
+                  prefix: "¥", 
+                  thousands: "," %>
   </div>
 </div>
 
