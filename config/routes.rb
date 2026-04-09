@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
   root "top#index"
 
-  resources :groups, only: [:show, :create] do
+  resources :groups, only: [:show, :create, :edit, :update, :destroy] do
     resources :items
     resources :categories, only: [:create]
     collection do
@@ -17,7 +19,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :categories, only: [:index, :create, :update, :destroy]
+  resources :categories, only: [:index, :create, :show, :edit, :update, :destroy]
 
   resources :calendars, only: [:index, :show, ]
 
