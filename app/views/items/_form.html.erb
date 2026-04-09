@@ -1,11 +1,16 @@
 <div id="item_form" class="list-add-section">
-  <%= form_with(model: item, url: items_path) do |f| %>  
+  <%# フォーム本体 %>
+  <%= form_with(model: item, url: items_path, class: "add-form-inner") do |f| %>  
     <%= f.hidden_field :category_id, value: category&.id %>
-    <%= f.text_field :name, placeholder: "商品名を入力", required: true %>
+    <%= f.text_field :name, placeholder: "商品名を入力", required: true, class: "item-input" %>
     <%= f.submit "追加", class: "submit-button" %>
   <% end %>
-  <%# 一括りセットボタン %>
-  <div id="reset-button-area">
-    <%= button_to "☑️一括リセット", bulk_update_items_path(category_id: @current_category&.id), method: :patch, class: "reset-btn" %>
-  </div>
+
+  <%# 一括リセットボタン %>
+  <%= button_to bulk_update_items_path(category_id: @current_category&.id), 
+                method: :patch, 
+                class: "reset-btn",
+                data: { confirm: "チェックをすべて外しますか？" } do %>
+    <span>☑️一括リセット</span>
+  <% end %>
 </div>

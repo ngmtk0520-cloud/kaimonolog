@@ -24,10 +24,14 @@
   </div>
 
   <%# マイカテゴリー追加エリア %>
-  <div class="quick-category-form">
-    <h3>マイカテゴリーを追加</h3>
-      <%= form_with(model: Category.new, url: group_categories_path(@group)) do |f| %>      <%= f.text_field :name, placeholder: "例：お菓子、美容代" %>
-      <%= f.submit "追加" %>
+  <div class="list-add-section category-add-area">
+    <div class="add-form-header">
+      <h3 class="content-name">マイカテゴリーを追加</h3>
+    </div>
+
+    <%= form_with(model: Category.new, url: group_categories_path(@group), class: "add-form-inner") do |f| %>      
+      <%= f.text_field :name, placeholder: "例：お土産、飲料", class: "item-input" %>
+      <%= f.submit "追加", class: "submit-button" %>
     <% end %>
   </div>
 
