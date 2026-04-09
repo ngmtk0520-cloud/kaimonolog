@@ -42,10 +42,10 @@ class CategoriesController < ApplicationController
 
   private
 
-   def set_category
-      # セキュリティのため、現在のグループに属するカテゴリーのみを対象にする
-      @category = current_user.group.categories.find(params[:id])
-    end
+  def set_category
+    # セキュリティのため、現在のグループに属するカテゴリーのみを対象にする
+    @category = current_user.group.categories.find(params[:id])
+  end
 
   def category_params
     params.require(:category).permit(:name)
