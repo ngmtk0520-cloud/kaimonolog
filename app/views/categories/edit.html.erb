@@ -1,0 +1,23 @@
+<%= render "items/header" %>
+
+<main class="main-container">
+  <div class="welcome-message">
+    <h2>カテゴリー名の編集</h2>
+  </div>
+
+  <div class="group-card">
+    <%= form_with model: @category do |f| %>
+      <div class="field" style="margin-bottom: 20px;">
+        <%= f.label :name, "カテゴリー名", style: "display: block; margin-bottom: 10px; font-weight: bold; color: #555;" %>
+        <%= f.text_field :name, placeholder: "カテゴリー名を入力", autofocus: true %>
+      </div>
+      <%= f.submit "更新する", class: "btn-primary" %>
+    <% end %>
+
+    <div style="margin-top: 20px; text-align: center;">
+      <%= link_to "← 一覧に戻る", categories_path, style: "color: #888; font-size: 0.9rem; text-decoration: none;" %>
+    </div>
+  </div>
+</main>
+
+<%= render "items/footer" %>
