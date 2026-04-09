@@ -1,10 +1,16 @@
-<!-- "カレンダーのトップページ" -->
+<!-- "購入履歴編集ページ" -->
 <%= render "items/header" %>
 
 
 <div class=edit_calendar>
   <h2>購入履歴の編集</h2>
   <%= form_with model: @purchase_history, url: purchase_history_path(@purchase_history), method: :patch do |f| %>
+
+    <div class="field">
+      <%= f.label :category_id, "カテゴリー" %><br>
+      <%= f.collection_select :category_id, @categories, :id, :name, prompt: "選択してください" %>
+    </div>
+
     <div class="field">
       <%= f.label :item_id, "商品" %><br>
       <%= f.collection_select :item_id, @group.items, :id, :name %>
@@ -18,6 +24,11 @@
     <div class="field">
       <%= f.label :price, "価格" %><br>
       <%= f.number_field :price %>
+    </div>
+
+    <div class="field">
+      <%= f.label :quantity, "個数" %><br>
+      <%= f.number_field :quantity, min: 1 %>
     </div>
 
     <div class="actions">

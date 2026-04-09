@@ -5,6 +5,8 @@ class PurchaseHistoriesController < ApplicationController
   before_action :set_purchase_history, only: [:edit, :update, :destroy, ]
 
   def edit
+    @current_group ||= @purchase_history.group 
+    @categories = @current_group.categories 
   end
 
   def update
@@ -54,7 +56,7 @@ class PurchaseHistoriesController < ApplicationController
   private
 
   def purchase_history_params
-    params.require(:purchase_history).permit(:bought_at, :price)
+    params.require(:purchase_history).permit(:bought_at, :price, :quantity, :item_name, :category_id)
   end
 
   def set_purchase_history
@@ -68,6 +70,6 @@ class PurchaseHistoriesController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :kind, :price, :quantity)
+    params.require(:item).permit(:name, :is_subscription, :category_id, :price, :quantity)
   end
 end

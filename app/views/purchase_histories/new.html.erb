@@ -24,6 +24,13 @@
       <%= f.number_field :price %>
     </div>
 
+    <div class="field">
+      <%= f.label :quantity, "個数" %><br>
+      <%= f.number_field :quantity, min: 1 %>
+    </div>
+
+    
+
     <div class="actions">
       <%= f.submit "登録する" %>
     </div>
