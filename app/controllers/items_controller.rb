@@ -59,12 +59,15 @@ class ItemsController < ApplicationController
         PurchaseHistory.create!(
           item_id: @item.id,
           item_name: @item.name,
+          quantity: @item.quantity,
           category_id: @item.category_id,
           group_id: @item.group_id,
           price: @item.price,
           bought_at: Time.current  # 今の日時で履歴を作る
         )
         @item.update(price: nil) 
+      else
+        @item.update(price: nil, quantity: 1,) 
       end
       respond_to do |format|
         format.turbo_stream
@@ -98,7 +101,7 @@ class ItemsController < ApplicationController
       items_to_reset = @group.items.where(is_checked: true)
     end
 
-    items_to_reset.update_all(is_checked: false)
+    items_to_reset.update_all(is_checked: false, quantity: 1)
     redirect_to items_path(category_id: target_category_id), notice: "チェックをリセットしました"
   end
 

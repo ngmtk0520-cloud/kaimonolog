@@ -68,6 +68,6 @@ class PurchaseHistoriesController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :kind, :price)
+    params.require(:item).permit(:name, :is_subscription, :is_checked, :category_id, :kind, :price, :quantity)
   end
 end
