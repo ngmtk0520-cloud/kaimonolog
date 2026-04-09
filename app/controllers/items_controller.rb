@@ -21,7 +21,6 @@ class ItemsController < ApplicationController
       @items = Item.none
     end
 
-    # 💥 今日が予測日、または予測日を過ぎている「買い時」なアイテムを3件だけ抽出
     set_ai_suggestions
     
   end
@@ -44,7 +43,6 @@ class ItemsController < ApplicationController
       @items = @current_category ? @current_category.items.order(created_at: :desc) : Item.none
       
       set_ai_suggestions
-      # AI予測などの変数も index と同様に必要ならここに書く
       render :index, status: :unprocessable_entity
     end
   end

@@ -10,24 +10,30 @@ class Item < ApplicationRecord
 
   #平均購入サイクルを計算する
   def update_average_cycle
+    # 履歴が2件未満なら何もしない
     return if purchase_histories.count < 2
     
-    # 購入日を古い順に取得して、日付の間隔を計算する
-    dates = purchase_histories.order(:bought_at).pluck(:bought_at).map(&:to_date)
-    intervals = dates.each_cons(2).map { |a, b| (b - a).to_i}
+    dates = purchase_histories.order(:bought_at).pluck(:bought_at).compact.map(&:to_date)
+    
+    # datesが空、または1件しかない場合の念のためのガード
+    return if dates.size < 2
+
+    intervals = dates.each_cons(2).map { |a, b| (b - a).to_i }
 
     # 平均を出して、cycle_days カラムを更新
-    avg = intervals.sum / intervals.size
-    update(cycle_days: avg)
+    if intervals.any?
+      avg = intervals.sum / intervals.size
+      update(cycle_days: avg)
+    end
   end
 
   def due_soon?
     # 定期購入のみ予測する,履歴が１件の場合は除外
     return false unless is_subscription? && cycle_days.to_i > 0
+    last_purchase = purchase_histories.order(bought_at: :desc).first
 
-    # 最後に買った日を取得
-    last_bought_at = purchase_histories.order(bought_at: :desc).first.bought_at
-    return false if last_bought_at.nil?
+    return false if last_purchase&.bought_at.nil?
+    last_bought_at = last_purchase.bought_at.to_date
     
     # 次回の予定日 = 最後に買った日 + サイクル（日）
     # 次回の予定日「今日から4日以内」を判定
