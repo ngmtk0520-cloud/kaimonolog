@@ -1,15 +1,17 @@
-<!-- "カレンダーのトップページ" -->
+<!-- "支出表のトップページ" -->
 <%= render "items/header" %>
 
 <div class="budget_book">
   <h2 class="month's_expense">今月の支出割合</h2>
   <%# 今月の支出円グラフの表示 %>
-  <%= pie_chart @expense_chart_data, suffix: "円", library: { title: { position: 'top' } } %>
+  <%= pie_chart @expense_chart_data, colors: generate_colors(@expense_chart_data.keys), suffix: "円", library: { title: { position: 'top' } } %>
 
   <div class="monthly_expense_trend">
     <h2 class="monthly_expense">月別支出推移</h2>
     <%# 月々の支出推移縦グラフの表示 %>
-    <%= column_chart @monthly_chart_data, prefix: "¥", thousands: "," %>  </div>
+    <%= column_chart @monthly_chart_data, stacked: true, 
+                 colors: ["#007BFF"], prefix: "¥", thousands: "," %>  
+  </div>
 </div>
 
 <!--"フッターナビ" -->
