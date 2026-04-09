@@ -765,3 +765,129 @@ h2 {
 .actions input[type="submit"]:hover {
   background-color: #0056b3;
 }
+/* -----------------------------------------ここまでリストの編集・追加のスタイル------------------------ */
+/* -----------------------------------------ここから設定画面のスタイル-------------------------------- */
+
+/* 設定画面 全体レイアウト */
+.main-container {
+  padding: 20px;
+  max-width: 400px; /* ログイン画面のmax-widthに合わせる */
+  margin: 0 auto;
+  padding-bottom: 100px;
+  background-color: #f8f9fa; /* ログイン画面の背景色と統一 */
+}
+
+.setting-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #242629; /* ログインボタンと同じ色 */
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* カードセクション（ログインフォームと同じトーン） */
+.content, .content-box {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* ログイン画面より少し軽めの影 */
+  margin-bottom: 20px;
+  border: 1px solid #eee;
+}
+
+/* カテゴリーセクション用（単独のcontent-boxもカードにする） */
+div.content-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content-name {
+  font-size: 0.8rem;
+  color: #939596; /* ログインボタンのホバー色に近いグレー */
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* 編集リンク（黒・下線で落ち着いた印象に） */
+.profile-edit-link, .group-edit-link, .content-edit-link {
+  color: #242629;
+  text-decoration: underline;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* グループ名表示 */
+.text-xl {
+  font-size: 1.1rem;
+  margin: 15px 0;
+  color: #242629;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* 招待コードのボックス */
+.invite-token-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f1f3f5;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.invite-token-code {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #242629;
+  font-weight: bold;
+}
+
+/* コピーボタン（ログインボタンのスタイルを継承） */
+.copy-button {
+  background-color: #242629;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.copy-button:hover {
+  opacity: 0.8;
+}
+
+.copy-message {
+  font-size: 0.7rem;
+  color: #242629;
+  text-align: right;
+  height: 14px;
+  margin-top: 4px;
+}
+
+/* ログアウトエリア */
+.danger-zone {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.logout-link {
+  color: #939596;
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+.logout-link:hover {
+  background-color: #eee;
+  color: #242629;
+}

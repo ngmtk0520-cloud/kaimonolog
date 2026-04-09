@@ -19,6 +19,11 @@
       <%= link_to "← 設定に戻る", settings_path, style: "color: #888; font-size: 0.9rem;" %>
     </div>
   </div>
+  <%= link_to leave_groups_path, 
+              data: { turbo_method: :patch, turbo_confirm: "グループを抜けると履歴が見られなくなります。本当によろしいですか？" }, 
+              class: "text-red-500 font-bold py-2" do %>
+    🚪 グループを抜ける
+  <% end %>
 </main>
 
 <%= render "items/footer" %>
