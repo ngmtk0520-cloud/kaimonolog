@@ -15,7 +15,7 @@ class CalendarsController < ApplicationController
                                       .where(bought_at: @selected_date.all_day)
                                       .includes(:item)
     
-    @total_price = @calendar_events.sum(:price)
+    @total_price = @calendar_events.sum { |event| (event.price || 0) * (event.quantity || 1) }
 
     # 履歴がない時だけ新規登録へ飛ばす
     if @calendar_events.empty?

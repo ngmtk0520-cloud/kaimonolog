@@ -21,7 +21,12 @@
         <% @calendar_events.each do |event| %>
           <div class="date_form">
             <div class="item-name"><%= event.item_name %></div>
-            <div class="price"><%= number_with_delimiter(event.price) %>円</div>
+            <div class="price">
+              <%= number_with_delimiter(event.price) %>円
+              <% if event.quantity && event.quantity > 1 %>
+                <small style="color: #666;"> (× <%= event.quantity %>)</small>
+              <% end %>
+            </div>
             
             <div class="edit-link">
               <%= link_to "編集", edit_purchase_history_path(event) %>
