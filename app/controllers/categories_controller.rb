@@ -12,10 +12,10 @@ class CategoriesController < ApplicationController
     @category = @group.categories.build(category_params)
 
     if @category.save
-      redirect_to root_path, notice: "カテゴリー「#{@category.name}」を追加しました！"
+      redirect_to items_path, notice: "カテゴリー「#{@category.name}」を追加しました！"
     else
       # エラー時はひとまずホームに戻す
-      redirect_to root_path, alert: "カテゴリーの作成に失敗しました"
+      redirect_to items_path, alert: "カテゴリーの作成に失敗しました"
     end
   end
 
