@@ -341,7 +341,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 50px; /* 高さを50pxに固定 */
+  height: 65px;
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-top: 1px solid #e5e7eb;
@@ -626,11 +626,14 @@ h2 {
   align-items: center;
   min-height: 100vh;
   background-color: #f8f9fa;
+  margin-top: 0;
   padding: 20px;
+  padding-top: 0;
 }
 
 .login {
   background: #ffffff;
+  padding-top: 0;
   padding: 40px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
