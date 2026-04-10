@@ -58,12 +58,13 @@
 
 body {
   padding-top: 80px; /* ヘッダーの高さ分の余白を上部に追加 */
-  padding-bottom: 81px; /* フッターナビの高さ分の余白を下部に追加 */
+  padding-bottom: 50px; /* フッターナビの高さ分の余白を下部に追加 */
 }
 
 .main-container {
   background-color: #f9fafb;
   min-height: 100vh;
+  padding-bottom: 20px;
 }
 /* ------------------------ここまでヘッダースタイル------------------------------------- */
 
@@ -162,7 +163,6 @@ body {
 }
 
 /* フォーム本体（商品追加フォームと同じ add-form-inner クラスを使用） */
-/* ※ .item-input と .submit-button は以前のCSSがそのまま適用されます */
 .category-add-area .add-form-inner {
   width: 100%;
   display: flex;
@@ -341,29 +341,47 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
+  height: 50px; /* 高さを50pxに固定 */
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-top: 1px solid #e5e7eb;
-  padding: 0.5rem 0 1.5rem 0;
+  padding: 0; /* 余白をすべてゼロにして中身が切れるのを防ぐ */
+  margin: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
-  position: fixed;
+  box-sizing: border-box; /* サイズ計算を正確に */
 }
 
 .nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* 上下中央に配置 */
   width: 25%;
+  height: 100%;
   color: #9ca3af;
-  text-decoration: none;
+  text-decoration: none !important; /* アンダーバーを強制的に消去 */
+  outline: none;
+  -webkit-tap-highlight-color: transparent; /* タップ時の青枠も消去 */
+}
+
+/* リンクの下線を徹底的に消す設定 */
+.nav-item:hover, .nav-item:active, .nav-item:focus {
+  text-decoration: none !important;
 }
 
 .nav-item-active {
-  color: #3b82f6;
+  color: #060606;
+}
+
+/* 文字の高さ調整 */
+.nav-item div {
+  line-height: 1; 
+  margin: 0;
+  padding: 0;
 }
 /* ------------------------ここまでフッターナビのスタイル------------------------- */
 
