@@ -342,48 +342,55 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 65px;
+  height: 55px;
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-top: 1px solid #e5e7eb;
-  padding: 0; /* 余白をすべてゼロにして中身が切れるのを防ぐ */
-  margin: 0;
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
-  box-sizing: border-box; /* サイズ計算を正確に */
 }
 
 .nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* 上下中央に配置 */
+  justify-content: center;
   width: 25%;
   height: 100%;
   color: #9ca3af;
-  text-decoration: none !important; /* アンダーバーを強制的に消去 */
-  outline: none;
-  -webkit-tap-highlight-color: transparent; /* タップ時の青枠も消去 */
-}
-
-/* リンクの下線を徹底的に消す設定 */
-.nav-item:hover, .nav-item:active, .nav-item:focus {
+  /* 下線を徹底的に排除 */
   text-decoration: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* aタグ内のすべての子要素から下線を消す */
+.nav-item * {
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+/* 【今いるページ】アイコンだけを光らせる */
+.nav-item-active .text-xl {
+  /* アイコン自体の色（絵文字以外の場合に有効） */
+  color: #d2d6db; 
+  /* 周りをぼんやり光らせる */
+  filter: drop-shadow(0 0 10px rgba(45, 237, 237, 0.8));
+  /* 少し大きくして分かりやすく */
+  transform: scale(1.2);
+  transition: transform 0.2s ease;
+}
+
+/* アクティブ時の枠線や下線は一切出さない */
 .nav-item-active {
-  color: #060606;
+  text-decoration: none !important;
+  border: none !important;
 }
 
-/* 文字の高さ調整 */
-.nav-item div {
-  line-height: 1; 
-  margin: 0;
-  padding: 0;
-}
 /* ------------------------ここまでフッターナビのスタイル------------------------- */
 
 
@@ -735,6 +742,7 @@ h2 {
   flex-wrap: wrap; /* スマホで縦並びにする */
 }
 
+
 /* グループカード */
 .group-card {
   background: #ffffff;
@@ -810,6 +818,28 @@ h2 {
 
 .btn-outline:hover {
   background: #eee;
+}
+
+.member-label {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.member-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.member-item {
+  background: #f8f9fa;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  border: 1px solid #dee2e6;
 }
 /* -----------------------------------ここまでトップページ（グループ作成・所属グループ表示）のスタイル--------------------------- */
 
