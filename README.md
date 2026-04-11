@@ -3,6 +3,9 @@ markdown
 ## kaimonolog（カイモノログ）
 
 App URL/https://kaimonolog.fly.dev
+ログイン
+Email/ test@test.com
+password/ 111111
 
 ## アプリの目的概要
 モバイル端末での利用を最適化した、家族やパートナー向けの「買い物情報共有・需要予測アプリ」です。日常の買い物を「単なる記録」から「次回の予測」へと繋げ、買い忘れや二重買いを防ぐ体験を提供します。
