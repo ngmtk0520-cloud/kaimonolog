@@ -15,10 +15,10 @@
           </div>
           
           <div style="display: flex; gap: 12px;">
-            <%= link_to "編集", edit_category_path(category), style: "color: #0f0f0f; font-size: 0.85rem; text-decoration: none;" %>
-            
-            <%# 「定期購入」は削除ボタンを出さない %>
+            <%# 「定期購入」は編集ボタンも出さない %>
             <% unless category.name == "定期購入" %>
+              <%= link_to "編集", edit_category_path(category), style: "color: #0f0f0f; font-size: 0.85rem; text-decoration: none;" %>
+              
               <%= link_to "削除", category_path(category), 
                           data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？\nこのカテゴリーのアイテムもすべて削除されます。" }, 
                           style: "color: #dc3545; font-size: 0.85rem; text-decoration: none;" %>
