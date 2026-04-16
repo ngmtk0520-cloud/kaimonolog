@@ -13,6 +13,9 @@ class PurchaseHistoriesController < ApplicationController
     if @purchase_history.update(purchase_history_params)
       redirect_to calendar_path(id: @purchase_history.bought_at.to_date), notice: "購入履歴が更新されました"
     else
+      @current_group = @purchase_history.group
+      @categories = @current_group.categories
+      @items = @current_group.items
       render :edit, alert: "購入履歴の更新に失敗しました"
     end
   end
@@ -56,7 +59,7 @@ class PurchaseHistoriesController < ApplicationController
   private
 
   def purchase_history_params
-    params.require(:purchase_history).permit(:bought_at, :price, :quantity, :item_name, :category_id)
+    params.require(:purchase_history).permit(:bought_at, :price, :quantity, :item_id, :category_id)
   end
 
   def set_purchase_history

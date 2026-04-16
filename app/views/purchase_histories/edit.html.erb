@@ -13,7 +13,7 @@
 
     <div class="field">
       <%= f.label :item_id, "商品" %><br>
-      <%= f.collection_select :item_id, @group.items, :id, :name %>
+      <%= f.collection_select :item_id, @items || [], :id, :name, prompt: "選択してください" %>
     </div>
 
     <div class="field">
