@@ -32,9 +32,11 @@ class CategoriesController < ApplicationController
 
   def destroy
     # 「定期購入」はシステムの肝なので、念のためここでも削除をブロック
-    if @category.name == "定期購入"
-      redirect_to categories_path, alert: "「定期購入」カテゴリーはアプリの動作に必要なため削除できません。"
+    if @category.name == "定期購入" || @category.name == "未分類"
+      redirect_to categories_path, alert: "「#{@category.name}」カテゴリーはシステムの都合上、削除できません。"
     else
+      unclassified = current_user.group.categories.find_or_create_by(name: "未分類")
+      @category.items.update_all(category_id: unclassified.id)
       @category.destroy
       redirect_to categories_path, notice: "カテゴリーを削除しました。"
     end
