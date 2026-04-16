@@ -24,7 +24,9 @@
 
   <body>
     <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>">
+      <div style="padding: 10px; margin: 10px; border-radius: 5px; 
+                  background-color: <%= key == 'notice' ? '#d4edda' : '#f8d7da' %>;
+                  color: <%= key == 'notice' ? '#155724' : '#721c24' %>;">
         <%= value %>
       </div>
     <% end %>

@@ -2,8 +2,10 @@ class TotalExpensesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group  
   def index
-    @current_group ||= current_user.group  
-    
+
+    @current_group ||= current_user.group
+
+
     if @current_group
       # 1. すべての履歴（棒グラフ用）
       @all_histories = @current_group.purchase_histories
@@ -13,8 +15,8 @@ class TotalExpensesController < ApplicationController
       @this_month_histories = @all_histories.where(bought_at: Time.current.all_month)
 
       # 【円グラフ】今月のデータのみで集計
-      @expense_chart_data = @this_month_histories.joins(:category)
-                            .group("categories.name")
+      @expense_chart_data = @this_month_histories.left_joins(item: :category)
+                            .group("COALESCE(categories.name, '未分類')")
                             .sum("purchase_histories.price * purchase_histories.quantity")
 
       # 【棒グラフ】全期間のデータで推移を表示
