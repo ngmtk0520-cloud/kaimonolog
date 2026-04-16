@@ -13,7 +13,15 @@
 
     <div class="field">
       <%= f.label :item_id, "商品" %><br>
-      <%= f.collection_select :item_id, @items || [], :id, :name, prompt: "選択してください" %>
+      <% if @purchase_history.item %>
+        <%# 商品がまだ存在する場合は、今まで通り選べるようにする %>
+        <%= f.collection_select :item_id, @items, :id, :name %>
+      <% else %>
+        <%# 商品が消えている場合：カレンダーと同じメソッドで名前だけ表示する %>
+        <p><strong><%= @purchase_history.item_name %></strong> (削除済みの商品)</p>
+        <%# item_idは変更せず、そのまま送信するように隠しフィールドにする %>
+        <%= f.hidden_field :item_id %>
+      <% end %>
     </div>
 
     <div class="field">

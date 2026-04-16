@@ -7,6 +7,7 @@ class PurchaseHistoriesController < ApplicationController
   def edit
     @current_group ||= @purchase_history.group 
     @categories = @current_group.categories 
+    @items = @current_group.items 
   end
 
   def update
