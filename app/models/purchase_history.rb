@@ -1,7 +1,8 @@
 class PurchaseHistory < ApplicationRecord
-  belongs_to :item
+  belongs_to :item, optional: true
   belongs_to :group
-  belongs_to :category
+  belongs_to :category, optional: true
+
 
   #購入したら紐ずくアイテムの平均サイクルを計算する
   after_create :update_item_average_cycle
